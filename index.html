@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Test Case Manager</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://accounts.google.com/gsi/client" async></script>
-<script src="https://apis.google.com/js/api.js" async></script>
+<script src="https://accounts.google.com/gsi/client" async=""></script>
+<script src="https://apis.google.com/js/api.js" async=""></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -250,10 +248,25 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .run-progress-bar span{transition:width .3s}
 .run-body{display:none;border-top:0.5px solid var(--border);border-radius:0 0 var(--rl) var(--rl);overflow:hidden}
 .run-body.open{display:block}
-.run-tc-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
+.run-tc-row{display:flex;flex-direction:column;gap:0;padding:0;border-bottom:0.5px solid var(--border)}
 .run-tc-row:last-child{border-bottom:none}
+.run-tc-header{display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap}
 .run-tc-id{font-size:11px;color:var(--text3);font-family:monospace;flex-shrink:0;width:58px}
-.run-tc-title{flex:1;font-size:13px;min-width:100px}
+.run-tc-title{font-size:13px;font-weight:500;flex:1;min-width:100px}
+.run-tc-body{padding:0 14px 12px 14px;display:flex;flex-direction:column;gap:10px}
+.run-tc-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px}
+.run-tc-section{display:flex;flex-direction:column;gap:4px}
+.run-tc-section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:1px}
+.run-tc-precondition{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:var(--r);padding:6px 10px;line-height:1.5;white-space:pre-wrap}
+.run-tc-steps-table{width:100%;border-collapse:collapse;font-size:12px;border:0.5px solid var(--border2);border-radius:var(--r);overflow:hidden}
+.run-tc-steps-table th{background:var(--bg3);padding:5px 10px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:0.5px solid var(--border2)}
+.run-tc-steps-table td{padding:6px 10px;border-bottom:0.5px solid var(--border);vertical-align:top;line-height:1.5;color:var(--text)}
+.run-tc-steps-table tr:last-child td{border-bottom:none}
+.run-tc-steps-table td:first-child{width:28px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;background:var(--bg2)}
+.run-tc-steps-table td.expected{color:var(--success-text);background:var(--success-bg)}
+.run-tc-acceptance{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:var(--r);padding:6px 10px;line-height:1.6;white-space:pre-wrap}
+.run-tc-tags{display:flex;flex-wrap:wrap;gap:4px}
+.run-tc-tag{font-size:10px;background:var(--bg3);color:var(--text2);border-radius:10px;padding:2px 8px;border:0.5px solid var(--border2)}
 .run-status-sel{font-size:12px;padding:4px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;cursor:pointer}
 .run-status-sel:focus{border-color:var(--info-border)}
 .run-status-sel.Passed{background:#e1f5ee;color:#0f6e56;border-color:#5dcaa5}
@@ -363,7 +376,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .gdrive-dd-btn:hover{opacity:.88}
 .gdrive-dd-btn .dot{width:7px;height:7px;border-radius:50%;background:#bbb;flex-shrink:0}
 .gdrive-dd-btn .dot.ok{background:#34a853}
-.gdrive-dd-menu{display:none;position:absolute;top:calc(100% + 5px);right:0;z-index:300;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);box-shadow:0 4px 20px rgba(0,0,0,.13);min-width:210px;overflow:hidden}
+.gdrive-dd-menu{display:none;position:fixed;top:48px;right:16px;z-index:1000;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);box-shadow:0 4px 20px rgba(0,0,0,.13);min-width:220px;overflow:hidden}
 .gdrive-dd-menu.open{display:block}
 .gdrive-dd-head{padding:10px 14px 8px;border-bottom:0.5px solid var(--border)}
 .gdrive-dd-head-title{font-size:12px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
@@ -403,7 +416,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .gdrive-setup-banner{background:var(--warn-bg);color:var(--warn-text);border-radius:var(--r);padding:10px 14px;font-size:12px;line-height:1.6;display:flex;gap:8px;align-items:flex-start}
 .gdrive-setup-banner i{font-size:16px;flex-shrink:0;margin-top:1px}
 </style>
-</head>
+<style id="googleidentityservice_button_styles">.qJTHM{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:Roboto-Regular,arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{overflow-wrap:break-word;word-break:break-word}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-u2z5K{height:36px;width:36px}.Bz112c-uaxL4e{border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf{border:none;margin:0;padding:0}.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u{-webkit-transition:height .2s linear;transition:height .2s linear}.P1ekSe-ZMv3u>div:first-child{background-color:#1a73e8!important;-webkit-transition:width .3s linear;transition:width .3s linear}.P1ekSe-ZMv3u>div:nth-child(2){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.P1ekSe-ZMv3u>div:nth-child(3){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{border-radius:4px;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:Google Sans,arial,sans-serif;font-size:.875rem;height:40px;letter-spacing:.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}@media screen and (preferes-contrast:more){.nsm7Bb-HzV7m-LgbsSe{color:#000}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:.875rem;height:32px;letter-spacing:.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:.6875rem;height:20px;letter-spacing:.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc{border:1px solid #8e918f;background-color:#131314;color:#e3e3e3}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{color:#fff}}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;-webkit-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;-webkit-box-flex:1;flex-grow:1;font-family:Google Sans,arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;-webkit-box-flex:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:focus,.nsm7Bb-HzV7m-LgbsSe:hover{box-shadow:none;border-color:rgb(210,227,252);outline:none}.nsm7Bb-HzV7m-LgbsSe:focus-within{outline:2px solid #00639b;border-color:transparent}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.08)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.08)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.12)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:Roboto;font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-to915-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#c4c7c5;fill:#c4c7c5}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff,.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#000;fill:#000}}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style></head>
 <body>
 <!-- USERNAME SCREEN -->
 <div id="userScreen" class="user-screen">
@@ -413,25 +426,32 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
     <p>Enter your name to get started.<br>This will be shown in version history.</p>
     <div class="user-input-wrap">
       <label for="userNameInput">Your name <span style="color:var(--danger-text)">*</span></label>
-      <input id="userNameInput" type="text" placeholder="e.g. John Smith" maxlength="60" autocomplete="name"
-        onkeydown="if(event.key==='Enter')continueToApp()">
+      <input id="userNameInput" type="text" placeholder="e.g. John Smith" maxlength="60" autocomplete="name" onkeydown="if(event.key==='Enter')continueToApp()">
       <span class="user-err" id="userErr">Please enter your name to continue</span>
     </div>
-    <button class="user-continue-btn" onclick="continueToApp()">Continue &rarr;</button>
-    <div class="user-welcome" id="userWelcomeNote" style="display:none">
-      Welcome back, <strong id="userWelcomeName"></strong>! Click continue to proceed.
+    <button class="user-continue-btn" onclick="continueToApp()">Continue →</button>
+    <div class="user-welcome" id="userWelcomeNote" style="display: block;">
+      Welcome back, <strong id="userWelcomeName">Venkata</strong>! Click continue to proceed.
     </div>
   </div>
 </div>
 
 <!-- TEAM PICKER SCREEN -->
-<div id="teamScreen" class="team-screen">
+<div id="teamScreen" class="team-screen" style="display: none;">
   <div class="team-screen-logo"><i class="ti ti-test-pipe"></i> Test Manager</div>
-  <h2>Select a team to continue</h2>
-  <div class="team-grid" id="teamGrid"></div>
+  <h2>Hello, Venkata! Select a team to continue.</h2>
+  <div class="team-grid" id="teamGrid"><div class="team-card">
+      <div class="team-card-icon" style="background:#378ADD22;color:#378ADD"><i class="ti ti-layout-2"></i></div>
+      <div class="team-card-name">Frontend</div>
+      <div class="team-card-count">10 test cases</div>
+      <button class="team-card-del" onclick="event.stopPropagation();deleteTeam('t1')" title="Delete team"><i class="ti ti-trash"></i></button></div><div class="team-card">
+      <div class="team-card-icon" style="background:#D85A3022;color:#D85A30"><i class="ti ti-device-mobile"></i></div>
+      <div class="team-card-name">Mobile</div>
+      <div class="team-card-count">1 test case</div>
+      <button class="team-card-del" onclick="event.stopPropagation();deleteTeam('t3')" title="Delete team"><i class="ti ti-trash"></i></button></div><div class="team-card add-card"><div class="team-card-icon" style="background:var(--bg3);color:var(--text3)"><i class="ti ti-plus"></i></div><div class="team-card-name">New team</div></div></div>
 </div>
 
-<div class="app-shell" id="appShell" style="display:none">
+<div class="app-shell" id="appShell" style="display: flex;">
 
 <!-- TOP NAV -->
 <div class="topbar">
@@ -442,13 +462,13 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
   </div>
   <div class="topbar-right">
     <span class="saved-badge" id="savedBadge"><i class="ti ti-check" style="font-size:12px"></i> Saved</span>
-    <button class="btn" id="userBtn" onclick="setUsername()" style="display:flex;align-items:center;gap:5px;border-color:var(--border2)">
+    <button class="btn" id="userBtn" onclick="setUsername()" style="display:flex;align-items:center;gap:5px;border-color:var(--border2)" title="Signed in as Venkata — click to change">
       <i class="ti ti-user" style="font-size:13px;color:var(--text2)"></i>
-      <span id="userDisplay" style="font-size:12px;color:var(--text2);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Set name</span>
+      <span id="userDisplay" style="font-size: 12px; color: var(--text); max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Venkata</span>
     </button>
     <button class="team-badge" id="teamBadgeBtn" onclick="goToTeamScreen()">
-      <span class="team-dot" id="teamBadgeDot"></span>
-      <span id="teamBadgeName">Team</span>
+      <span class="team-dot" id="teamBadgeDot" style="background: rgb(55, 138, 221);"></span>
+      <span id="teamBadgeName">Frontend</span>
       <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text3)"></i>
     </button>
     <button class="btn success" onclick="openImportModal()"><i class="ti ti-file-spreadsheet"></i> Import Excel</button>
@@ -465,7 +485,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <span class="dot" id="gdriveDot"></span>
         <i class="ti ti-chevron-down" style="font-size:11px;color:inherit;opacity:.7"></i>
       </button>
-      <div class="gdrive-dd-menu" id="gdriveDdMenu">
+      <div class="gdrive-dd-menu" id="gdriveDdMenu" onclick="event.stopPropagation()" style="top: 43.1667px; right: -57.2292px; left: auto;">
         <div class="gdrive-dd-head">
           <div class="gdrive-dd-head-title"><i class="ti ti-brand-google-drive" style="color:#4285F4"></i> Google Drive</div>
           <div class="gdrive-dd-head-sub" id="gdriveDdSub">Not signed in</div>
@@ -497,7 +517,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <button class="btn sm" onclick="addSuite()" aria-label="Add suite"><i class="ti ti-plus"></i></button>
       </div>
     </div>
-    <div class="sidebar-list" id="suiteList"></div>
+    <div class="sidebar-list" id="suiteList"><div class="sidebar-item active"><i class="ti ti-layout-list icon"></i><span class="item-name">All tests</span><span class="s-count">10</span><button class="item-del" title="Delete all test cases"><i class="ti ti-trash"></i></button></div></div>
   </div>
   <div class="main">
     <div class="toolbar">
@@ -518,12 +538,65 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <option value="">All priorities</option>
         <option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option>
       </select>
-      <select id="filterSprint" onchange="renderTCTable()">
-        <option value="">All sprints</option>
-      </select>
+      <select id="filterSprint" onchange="renderTCTable()"><option value="">All sprints</option><option value="1 sprint">1 sprint</option></select>
       <button class="btn primary" onclick="newTC()"><i class="ti ti-plus"></i> Add test case</button>
     </div>
-    <div class="tc-table" id="tcTable"></div>
+    <div class="tc-table" id="tcTable"><table><thead><tr>
+    <th style="width:74px">ID</th><th>Title</th>
+    <th style="width:110px">Suite</th>
+    <th style="width:80px">Sprint</th>
+    <th style="width:96px">Type</th><th style="width:76px">Priority</th>
+  </tr></thead><tbody id="tcBody"><tr><td class="tc-id">TC-007</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge functional">functional</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-008</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge functional">functional</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-009</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge functional">functional</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-010</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case 1</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge smoke">smoke</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-011</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge functional">functional</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-012</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case 2</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge sanity">sanity</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-013</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case333454r5</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">1 sprint</td>
+      <td><span class="badge functional">functional</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-014</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">priority 1</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge functional">functional</span></td>
+      <td><span class="badge high">high</span></td></tr><tr><td class="tc-id">TC-015</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">priorty 2</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge regression">regression</span></td>
+      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-016</td>
+      <td style="white-space:normal;word-break:break-word;line-height:1.4">3</td>
+      <td style="color:var(--text2);font-size:12px">—</td>
+      <td style="font-size:12px;color:var(--text3)">—</td>
+      <td><span class="badge regression">regression</span></td>
+      <td><span class="badge low">low</span></td></tr></tbody></table></div>
   </div>
   <div class="detail-panel hidden" id="tcDetailPanel">
     <div class="dp-resize" id="dpResizeHandle" title="Drag to resize"></div>
@@ -563,7 +636,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 
 </div><!-- end app-shell -->
 
-</div><!-- end appShell -->
+<!-- end appShell -->
 
 <!-- ── MODALS ── -->
 
@@ -615,6 +688,18 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
               </div>
             </div>
           </div>
+          <div class="multi-sel-wrap" id="nrPrioWrap">
+            <button class="multi-sel-btn" id="nrPrioBtn" onclick="toggleNrPrioDropdown(event)">
+              <span id="nrPrioLabel">All priorities</span>
+              <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text3)"></i>
+            </button>
+            <div class="multi-sel-drop" id="nrPrioDrop">
+              <div class="multi-sel-opts" id="nrPrioOpts"></div>
+              <div class="multi-sel-foot">
+                <button class="btn sm" onclick="clearNrPrioFilter()">Clear</button>
+              </div>
+            </div>
+          </div>
           <button class="btn sm" onclick="selectAllTC(true)">All</button>
           <button class="btn sm" onclick="selectAllTC(false)">None</button>
         </div>
@@ -659,7 +744,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
       </select>
       <div style="display:flex;gap:8px">
         <button class="btn" onclick="closeImportModal()">Cancel</button>
-        <button class="btn primary" id="importBtn" onclick="doImport()" disabled><i class="ti ti-check"></i> Import</button>
+        <button class="btn primary" id="importBtn" onclick="doImport()" disabled=""><i class="ti ti-check"></i> Import</button>
       </div>
     </div>
   </div>
@@ -677,7 +762,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
     </div>
     <div class="modal-foot" id="driveModalFoot">
       <button class="btn" onclick="closeDriveModal()">Cancel</button>
-      <button class="btn primary" id="driveModalAction" onclick="doDriveAction()" disabled></button>
+      <button class="btn primary" id="driveModalAction" onclick="doDriveAction()" disabled=""></button>
     </div>
   </div>
 </div>
@@ -694,7 +779,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
     <div class="modal-head">
       <h2><i class="ti ti-history" style="color:var(--info-text)"></i> Version history</h2>
       <div style="display:flex;gap:8px;align-items:center">
-        <span style="font-size:11px;color:var(--text3)" id="versionStorageInfo"></span>
+        <span style="font-size:11px;color:var(--text3)" id="versionStorageInfo">1 snapshot</span>
         <button class="btn danger-soft sm" onclick="clearAllVersions()"><i class="ti ti-trash"></i> Clear all</button>
         <button class="btn sm" onclick="closeVersionModal()"><i class="ti ti-x"></i></button>
       </div>
@@ -703,16 +788,21 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
       <!-- Version list -->
       <div style="width:220px;flex-shrink:0;border-right:0.5px solid var(--border);display:flex;flex-direction:column;background:var(--bg2)">
         <div style="padding:8px;font-size:11px;font-weight:500;color:var(--text2);border-bottom:0.5px solid var(--border);flex-shrink:0">Saved snapshots</div>
-        <div id="versionList" style="flex:1;overflow-y:auto;padding:6px"></div>
+        <div id="versionList" style="flex:1;overflow-y:auto;padding:6px"><div class="v-item">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
+        <div class="v-item-time">07:27 PM</div>
+        <span class="v-item-auto">auto</span>
+      </div>
+      <div style="font-size:12px;font-weight:500;color:var(--text);margin-top:3px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Team deleted: Backend">Team deleted: Backend</div>
+      <div class="v-item-meta">6/27/2026 · 0 TC · 0 suites</div>
+      <div style="font-size:11px;color:var(--info-text);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-user" style="font-size:11px"></i>Venkata</div></div></div>
       </div>
       <!-- Version detail -->
       <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0">
-        <div id="versionDetail" style="flex:1;overflow-y:auto;padding:16px;font-size:13px;color:var(--text2)">
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--text3)">
-            <i class="ti ti-history" style="font-size:32px"></i>
-            <span>Select a version to preview</span>
-          </div>
-        </div>
+        <div id="versionDetail" style="flex:1;overflow-y:auto;padding:16px;font-size:13px;color:var(--text2)"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--text3)">
+      <i class="ti ti-history" style="font-size:32px"></i>
+      <span>Select a version to preview</span>
+    </div></div>
         <div id="versionActions" style="padding:10px 16px;border-top:0.5px solid var(--border);display:none;gap:8px;justify-content:flex-end">
           <button class="btn sm" onclick="downloadVersion()"><i class="ti ti-download"></i> Download as JSON</button>
           <button class="btn primary sm" onclick="restoreVersion()"><i class="ti ti-restore"></i> Restore this version</button>
@@ -724,7 +814,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 
 <div class="toast" id="toast">
   <span id="toast-msg"></span>
-  <button class="toast-close" onclick="dismissToast()" aria-label="Close">&#x2715;</button>
+  <button class="toast-close" onclick="dismissToast()" aria-label="Close">✕</button>
 </div>
 
 <script>
@@ -878,6 +968,11 @@ function saveData(changeDesc){
   b.classList.add('show');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('show'),2000);
 }
 
+/* TCM_INJECTED_START */
+var INJECTED={"teams":[{"id":"t1","name":"Frontend","color":"#378ADD","icon":"ti-layout-2"},{"id":"t3","name":"Mobile","color":"#D85A30","icon":"ti-device-mobile"}],"suites":[],"testcases":[{"id":"TC-007","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-008","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-009","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-010","suiteId":"","teamId":"t1","sprint":"","title":"New test case 1","type":"smoke","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-011","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-012","suiteId":"","teamId":"t1","sprint":"","title":"New test case 2","type":"sanity","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-013","suiteId":"","teamId":"t1","sprint":"1 sprint","title":"New test case333454r5","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-014","suiteId":"","teamId":"t1","sprint":"","title":"priority 1","type":"functional","priority":"high","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-015","suiteId":"","teamId":"t1","sprint":"","title":"priorty 2","type":"regression","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-016","suiteId":"","teamId":"t1","sprint":"","title":"3","type":"regression","priority":"low","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-017","suiteId":"","teamId":"t3","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]}],"plans":[{"id":"P-001","name":"ter","desc":"","runs":[{"id":"R-001","name":"rtr","sprint":"","cases":[{"tcId":"TC-007","status":"Passed","notes":"test","attachments":[]},{"tcId":"TC-008","status":"Passed","notes":"","attachments":[]}],"created":1782773347226},{"id":"R-002","name":"tgesrt","sprint":"","cases":[{"tcId":"TC-016","status":"Untested","notes":"","attachments":[]}],"created":1782773841449}],"teamId":"t1","created":1782773339565}],"counter":18,"planCounter":3,"runCounter":4,"teamCounter":4};
+var INJECTED_VERSIONS=[{"ts":1782610049491,"label":null,"changes":["Team deleted: Backend"],"user":"Venkata","teams":[{"id":"t1","name":"Frontend","color":"#378ADD","icon":"ti-layout-2"},{"id":"t3","name":"Mobile","color":"#D85A30","icon":"ti-device-mobile"}],"suites":[],"testcases":[],"plans":[],"stats":{"teams":2,"suites":0,"testcases":0,"plans":0}}];
+var INJECTED_DELETED=["s1","TC-001","TC-002","s2","TC-003","s3","TC-004","s4","TC-005","s5","TC-006"];
+/* TCM_INJECTED_END */
 let {teams,suites,testcases,plans,counter,planCounter,runCounter,teamCounter}=loadData();
 // Ensure teamCounter exists for old data
 if(!teamCounter)teamCounter=(teams||[]).length+1;
@@ -923,6 +1018,8 @@ function clearTypeFilter(){
 }
 function closeAllDropdowns(){
   document.querySelectorAll('.multi-sel-drop').forEach(d=>d.classList.remove('open'));
+  const driveMenu=document.getElementById('gdriveDdMenu');
+  if(driveMenu) driveMenu.classList.remove('open');
 }
 document.addEventListener('click',closeAllDropdowns);
 
@@ -1379,7 +1476,9 @@ function openNewRunModal(pid){
   sprints.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;spf.appendChild(o);});
   selectedTCIds=new Set();
   nrSelectedTypes=new Set();
+  nrSelectedPrios=new Set();
   updateNrTypeLabel();
+  updateNrPrioLabel();
   renderTCSelector();
   document.getElementById('newRunModal').classList.add('open');
   document.getElementById('newRunModal').dataset.pid=pid;
@@ -1387,6 +1486,7 @@ function openNewRunModal(pid){
 }
 let selectedTCIds=new Set();
 let nrSelectedTypes=new Set();
+let nrSelectedPrios=new Set();
 
 /* ── Run modal type filter ── */
 function initNrTypeFilter(){
@@ -1421,6 +1521,40 @@ function clearNrTypeFilter(){
   nrSelectedTypes.clear();updateNrTypeLabel();initNrTypeFilter();renderTCSelector();
 }
 
+/* ── Run modal priority filter ── */
+function initNrPrioFilter(){
+  const opts=document.getElementById('nrPrioOpts');opts.innerHTML='';
+  const prioColors={high:'var(--danger-text)',medium:'var(--warn-text)',low:'var(--success-text)'};
+  PRIORITIES.forEach(p=>{
+    const row=document.createElement('div');row.className='multi-sel-opt';
+    row.innerHTML=`<input type="checkbox" id="nrp-${p}" value="${p}" ${nrSelectedPrios.has(p)?'checked':''}><label for="nrp-${p}" style="cursor:pointer;flex:1">${p.charAt(0).toUpperCase()+p.slice(1)}</label><span class="badge ${p}" style="font-size:10px;padding:1px 7px">${p}</span>`;
+    row.querySelector('input').onchange=e=>{
+      if(e.target.checked)nrSelectedPrios.add(p);else nrSelectedPrios.delete(p);
+      updateNrPrioLabel();renderTCSelector();
+    };
+    row.onclick=e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='LABEL')return;const cb=row.querySelector('input');cb.checked=!cb.checked;cb.onchange({target:cb});};
+    opts.appendChild(row);
+  });
+}
+function updateNrPrioLabel(){
+  const btn=document.getElementById('nrPrioBtn');
+  const label=document.getElementById('nrPrioLabel');
+  if(!nrSelectedPrios.size){label.textContent='All priorities';btn.classList.remove('has-sel');return;}
+  const names=[...nrSelectedPrios].map(p=>p.charAt(0).toUpperCase()+p.slice(1));
+  label.innerHTML=nrSelectedPrios.size===1?names[0]:`${names[0]} <span class="type-count-pill">+${nrSelectedPrios.size-1}</span>`;
+  btn.classList.add('has-sel');
+}
+function toggleNrPrioDropdown(e){
+  e.stopPropagation();
+  const drop=document.getElementById('nrPrioDrop');
+  const isOpen=drop.classList.contains('open');
+  closeAllDropdowns();
+  if(!isOpen){initNrPrioFilter();drop.classList.add('open');}
+}
+function clearNrPrioFilter(){
+  nrSelectedPrios.clear();updateNrPrioLabel();initNrPrioFilter();renderTCSelector();
+}
+
 function renderTCSelector(){
   const q=document.getElementById('nr-search').value.toLowerCase();
   const sf=document.getElementById('nr-suite-filter').value;
@@ -1430,6 +1564,7 @@ function renderTCSelector(){
   if(sf)list=list.filter(t=>t.suiteId===sf);
   if(sp)list=list.filter(t=>(t.sprint||'')===sp);
   if(nrSelectedTypes.size)list=list.filter(t=>nrSelectedTypes.has(t.type));
+  if(nrSelectedPrios.size)list=list.filter(t=>nrSelectedPrios.has(t.priority));
   const wrap=document.getElementById('tcSelector');wrap.innerHTML='';
   list.forEach(tc=>{
     const row=document.createElement('div');row.className='tc-sel-row';
@@ -1439,10 +1574,11 @@ function renderTCSelector(){
     row.appendChild(cb);
     const sprintTag=tc.sprint?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:1px 6px;border-radius:10px;flex-shrink:0">${esc(tc.sprint)}</span>`:'';
     const typeTag=tc.type?`<span class="badge ${tc.type}" style="font-size:10px;padding:1px 7px;flex-shrink:0">${tc.type}</span>`:'';
+    const prioTag=tc.priority?`<span class="badge ${tc.priority}" style="font-size:10px;padding:1px 7px;flex-shrink:0">${tc.priority}</span>`:'';
     const idSpan=document.createElement('span');idSpan.className='tc-sel-id';idSpan.textContent=tc.id;
     const titleSpan=document.createElement('span');titleSpan.style.flex='1';titleSpan.textContent=tc.title;
     row.appendChild(idSpan);row.appendChild(titleSpan);
-    row.insertAdjacentHTML('beforeend',typeTag+sprintTag);
+    row.insertAdjacentHTML('beforeend',typeTag+prioTag+sprintTag);
     row.onclick=e=>{if(e.target.tagName==='INPUT')return;cb.checked=!cb.checked;onChange();};
     wrap.appendChild(row);
   });
@@ -1458,6 +1594,7 @@ function selectAllTC(sel){
   if(sf)list=list.filter(t=>t.suiteId===sf);
   if(sp)list=list.filter(t=>(t.sprint||'')===sp);
   if(nrSelectedTypes.size)list=list.filter(t=>nrSelectedTypes.has(t.type));
+  if(nrSelectedPrios.size)list=list.filter(t=>nrSelectedPrios.has(t.priority));
   list.forEach(t=>{if(sel)selectedTCIds.add(t.id);else selectedTCIds.delete(t.id);});
   renderTCSelector();
 }
@@ -1505,6 +1642,7 @@ function renderRuns(plan){
           ${stats.Blocked?`<span class="badge Blocked">${stats.Blocked} blocked</span>`:''}
           ${stats.Untested?`<span class="badge Untested">${stats.Untested} untested</span>`:''}
           <button class="btn sm" onclick="event.stopPropagation();showRunAnalytics('${plan.id}','${run.id}')"><i class="ti ti-chart-bar"></i> Analytics</button>
+          <button class="btn sm success" onclick="event.stopPropagation();exportRunExcel('${plan.id}','${run.id}')" title="Export this run to Excel"><i class="ti ti-file-spreadsheet"></i> Export</button>
           <button class="btn danger-soft sm" onclick="event.stopPropagation();deleteRun('${plan.id}','${run.id}')"><i class="ti ti-trash"></i></button>
           <i class="ti ti-chevron-down" style="color:var(--text3);font-size:15px" id="chev-${run.id}"></i>
         </div>
@@ -1516,7 +1654,7 @@ function renderRuns(plan){
   });
 }
 function renderRunRow(c,pid,rid){
-  const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted TC)',suiteId:''};
+  const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted TC)',suiteId:'',steps:[],tags:[]};
   const attHtml=c.attachments&&c.attachments.length?
     `<div class="attach-thumb">${c.attachments.map((a,ai)=>`
       <div class="attach-thumb-item" onclick="openLightbox('${pid}','${rid}','${c.tcId}',${ai})">
@@ -1524,20 +1662,77 @@ function renderRunRow(c,pid,rid){
         <button class="del-attach" onclick="event.stopPropagation();removeAttachment('${pid}','${rid}','${c.tcId}',${ai})" title="Remove"><i class="ti ti-x"></i></button>
       </div>`).join('')}
     </div>`:'';
+
+  // Badges: type, priority, sprint
+  const typeBadge=tc.type?`<span class="badge ${tc.type}" style="font-size:10px;padding:1px 7px">${tc.type}</span>`:'';
+  const prioBadge=tc.priority?`<span class="badge ${tc.priority}" style="font-size:10px;padding:1px 7px">${tc.priority}</span>`:'';
+  const sprintBadge=tc.sprint?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:10px;border:0.5px solid var(--border2)">${esc(tc.sprint)}</span>`:'';
+  const suiteBadge=tc.suiteId?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:10px;border:0.5px solid var(--border2)"><i class="ti ti-folder" style="font-size:9px"></i> ${esc(suiteName(tc.suiteId))}</span>`:'';
+
+  // Preconditions
+  const preHtml=tc.preconditions?`
+    <div class="run-tc-section">
+      <div class="run-tc-section-label"><i class="ti ti-arrow-right-bar"></i> Preconditions</div>
+      <div class="run-tc-precondition">${esc(tc.preconditions)}</div>
+    </div>`:'';
+
+  // Steps table
+  const steps=tc.steps||[];
+  const stepsHtml=steps.length?`
+    <div class="run-tc-section">
+      <div class="run-tc-section-label"><i class="ti ti-list-numbers"></i> Steps &amp; Expected Results</div>
+      <table class="run-tc-steps-table">
+        <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+        <tbody>${steps.map((s,i)=>`
+          <tr>
+            <td>${i+1}</td>
+            <td>${esc(s.action||'')}</td>
+            <td class="expected">${esc(s.expected||'')}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`:'';
+
+  // Acceptance criteria
+  const accHtml=tc.acceptance?`
+    <div class="run-tc-section">
+      <div class="run-tc-section-label"><i class="ti ti-circle-check"></i> Acceptance Criteria</div>
+      <div class="run-tc-acceptance">${esc(tc.acceptance)}</div>
+    </div>`:'';
+
+  // Tags
+  const tags=(tc.tags||[]).filter(Boolean);
+  const tagsHtml=tags.length?`
+    <div class="run-tc-section">
+      <div class="run-tc-tags">${tags.map(t=>`<span class="run-tc-tag">${esc(t)}</span>`).join('')}</div>
+    </div>`:'';
+
   return `<div class="run-tc-row" id="rrow-${rid}-${c.tcId}">
-    <span class="run-tc-id">${tc.id}</span>
-    <div style="flex:1;min-width:100px">
-      <div class="run-tc-title">${esc(tc.title)}</div>
-      ${attHtml}
-      <textarea class="run-notes" placeholder="Notes…" oninput="updateNotes('${pid}','${rid}','${c.tcId}',this.value)" rows="1">${esc(c.notes||'')}</textarea>
+    <div class="run-tc-header">
+      <span class="run-tc-id">${tc.id}</span>
+      <div style="flex:1;min-width:100px">
+        <div class="run-tc-title">${esc(tc.title)}</div>
+        <div class="run-tc-badges" style="margin-top:4px">${typeBadge}${prioBadge}${sprintBadge}${suiteBadge}</div>
+      </div>
+      <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
+        ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
+      </select>
+      <label class="attach-btn" title="Attach screenshot/video">
+        <i class="ti ti-paperclip"></i> Evidence
+        <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
+      </label>
     </div>
-    <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
-      ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
-    </select>
-    <label class="attach-btn" title="Attach screenshot/video">
-      <i class="ti ti-paperclip"></i> Evidence
-      <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
-    </label>
+    <div class="run-tc-body">
+      ${preHtml}
+      ${stepsHtml}
+      ${accHtml}
+      ${tagsHtml}
+      ${attHtml}
+      <div class="run-tc-section">
+        <div class="run-tc-section-label"><i class="ti ti-notes"></i> Notes</div>
+        <textarea class="run-notes" placeholder="Add notes, observations, or bug links…" oninput="updateNotes('${pid}','${rid}','${c.tcId}',this.value)" rows="2">${esc(c.notes||'')}</textarea>
+      </div>
+    </div>
   </div>`;
 }
 function toggleRun(pid,rid){
@@ -1553,6 +1748,104 @@ function deleteRun(pid,rid){
   const _drname=(plan.runs.find(r=>r.id===rid)||{name:'?'}).name;
   plan.runs=plan.runs.filter(r=>r.id!==rid);
   saveData(`Run deleted: ${_drname}`);renderRuns(plan);showToast('Run deleted');
+}
+
+function exportRunExcel(pid,rid){
+  const plan=plans.find(p=>p.id===pid);if(!plan)return;
+  const run=plan.runs.find(r=>r.id===rid);if(!run)return;
+
+  // ── Sheet 1: Run Summary ──
+  const stats=getRunStats(run);
+  const total=run.cases.length;
+  const summaryData=[
+    ['Test Run Report'],
+    [],
+    ['Plan',        plan.name],
+    ['Run',         run.name],
+    ['Sprint',      run.sprint||'—'],
+    ['Date',        new Date(run.created).toLocaleDateString()],
+    ['Exported',    new Date().toLocaleString()],
+    [],
+    ['── Results Summary ──'],
+    ['Total',       total],
+    ['Passed',      stats.Passed||0],
+    ['Failed',      stats.Failed||0],
+    ['Blocked',     stats.Blocked||0],
+    ['Untested',    stats.Untested||0],
+    ['Pass Rate',   total?(Math.round((stats.Passed||0)/total*100)+'%'):'0%'],
+  ];
+
+  // ── Sheet 2: Test Cases Detail ──
+  const headers=[
+    'TC ID','Title','Suite','Type','Priority','Sprint',
+    'Preconditions','Steps (Action | Expected)','Acceptance Criteria','Tags',
+    'Status','Notes','Evidence Count'
+  ];
+  const rows=run.cases.map(c=>{
+    const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted)',suiteId:'',type:'',priority:'',sprint:'',preconditions:'',steps:[],acceptance:'',tags:[]};
+    const stepsText=(tc.steps||[]).map((s,i)=>`${i+1}. ${s.action||''} → ${s.expected||''}`).join('\n');
+    return [
+      tc.id,
+      tc.title,
+      suiteName(tc.suiteId)||'—',
+      tc.type||'—',
+      tc.priority||'—',
+      tc.sprint||'—',
+      tc.preconditions||'',
+      stepsText,
+      tc.acceptance||'',
+      (tc.tags||[]).join(', '),
+      c.status||'Untested',
+      c.notes||'',
+      (c.attachments||[]).length
+    ];
+  });
+
+  // ── Sheet 3: Failed / Blocked only ──
+  const failedRows=run.cases
+    .filter(c=>c.status==='Failed'||c.status==='Blocked')
+    .map(c=>{
+      const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted)',suiteId:'',priority:'',type:''};
+      return [tc.id, tc.title, suiteName(tc.suiteId)||'—', tc.priority||'—', tc.type||'—', c.status, c.notes||''];
+    });
+
+  // ── Build workbook ──
+  const wb=XLSX.utils.book_new();
+
+  // Summary sheet
+  const wsSummary=XLSX.utils.aoa_to_sheet(summaryData);
+  wsSummary['!cols']=[{wch:18},{wch:40}];
+  // Bold the title cell
+  if(wsSummary['A1']) wsSummary['A1'].s={font:{bold:true,sz:14}};
+  XLSX.utils.book_append_sheet(wb,wsSummary,'Summary');
+
+  // Detail sheet
+  const wsDetail=XLSX.utils.aoa_to_sheet([headers,...rows]);
+  wsDetail['!cols']=[
+    {wch:10},{wch:40},{wch:20},{wch:14},{wch:12},{wch:14},
+    {wch:30},{wch:60},{wch:30},{wch:20},
+    {wch:12},{wch:30},{wch:10}
+  ];
+  // Freeze top row
+  wsDetail['!freeze']={xSplit:0,ySplit:1};
+  XLSX.utils.book_append_sheet(wb,wsDetail,'Test Cases');
+
+  // Failed & Blocked sheet
+  if(failedRows.length){
+    const wsFailed=XLSX.utils.aoa_to_sheet([
+      ['TC ID','Title','Suite','Priority','Type','Status','Notes'],
+      ...failedRows
+    ]);
+    wsFailed['!cols']=[{wch:10},{wch:40},{wch:20},{wch:12},{wch:14},{wch:12},{wch:40}];
+    XLSX.utils.book_append_sheet(wb,wsFailed,'Failed & Blocked');
+  }
+
+  // ── Download ──
+  const safeName=(run.name||'run').replace(/[^a-z0-9_\-]/gi,'_');
+  const planSafe=(plan.name||'plan').replace(/[^a-z0-9_\-]/gi,'_');
+  const date=new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb,`${planSafe}_${safeName}_${date}.xlsx`);
+  showToast(`✓ Exported: ${run.name}`);
 }
 function updateRunStatus(pid,rid,tcId,val,sel){
   const plan=plans.find(p=>p.id===pid);if(!plan)return;
@@ -1959,11 +2252,7 @@ function exportHTML(){
   const allVersions=loadVersions();
 
   // Build injection block using var to avoid duplicate declaration errors on re-save
-  const injBlock='/* TCM_INJECTED_START */\n'
-    +'var INJECTED='+JSON.stringify({teams,suites,testcases,plans,counter,planCounter,runCounter,teamCounter})+';\n'
-    +'var INJECTED_VERSIONS='+JSON.stringify(allVersions)+';\n'
-    +'var INJECTED_DELETED='+JSON.stringify([...deletedIds])+';\n'
-    +'/* TCM_INJECTED_END */';
+  const injBlock='';
 
   let src=document.documentElement.outerHTML;
 
@@ -2417,7 +2706,14 @@ function toggleDriveDropdown(e){
   const menu = document.getElementById('gdriveDdMenu');
   const isOpen = menu.classList.contains('open');
   closeAllDropdowns();
-  if(!isOpen) menu.classList.add('open');
+  if(!isOpen){
+    const btn = document.getElementById('gdriveDdBtn');
+    const rect = btn.getBoundingClientRect();
+    menu.style.top = (rect.bottom + 5) + 'px';
+    menu.style.right = (window.innerWidth - rect.right) + 'px';
+    menu.style.left = 'auto';
+    menu.classList.add('open');
+  }
 }
 function closeDriveDropdown(){
   const menu = document.getElementById('gdriveDdMenu');
@@ -2838,5 +3134,6 @@ function doLoadFromDrive(){
 /* ── Boot ── */
 window.addEventListener('load',()=>setTimeout(gdInit,800));
 </script>
-</body>
-</html>
+
+
+</body></html>
