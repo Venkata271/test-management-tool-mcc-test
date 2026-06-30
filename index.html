@@ -249,10 +249,19 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .run-progress-bar span{transition:width .3s}
 .run-body{display:none;border-top:0.5px solid var(--border);border-radius:0 0 var(--rl) var(--rl);overflow:hidden}
 .run-body.open{display:block}
-.run-tc-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
+.run-tc-row{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
 .run-tc-row:last-child{border-bottom:none}
-.run-tc-id{font-size:11px;color:var(--text3);font-family:monospace;flex-shrink:0;width:58px}
-.run-tc-title{flex:1;font-size:13px;min-width:100px}
+.run-tc-id{font-size:11px;color:var(--text3);font-family:monospace;flex-shrink:0;width:58px;padding-top:2px}
+.run-tc-title{font-size:13px;font-weight:500;margin-bottom:5px}
+.run-tc-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px;align-items:center}
+.run-tc-field{font-size:11px;color:var(--text2);margin-bottom:3px;line-height:1.5}
+.run-tc-field strong{color:var(--text);font-weight:500}
+.run-tc-steps{margin-top:6px;border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden}
+.run-tc-steps-head{font-size:11px;font-weight:500;color:var(--text2);background:var(--bg2);padding:4px 10px;border-bottom:0.5px solid var(--border)}
+.run-tc-step-row{display:grid;grid-template-columns:24px 1fr 1fr;font-size:11px;border-bottom:0.5px solid var(--border);color:var(--text2)}
+.run-tc-step-row:last-child{border-bottom:none}
+.run-tc-step-row>div{padding:5px 8px;line-height:1.5}
+.run-tc-step-num{color:var(--text3);font-weight:500;border-right:0.5px solid var(--border);text-align:center;background:var(--bg2)}
 .run-status-sel{font-size:12px;padding:4px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;cursor:pointer}
 .run-status-sel:focus{border-color:var(--info-border)}
 .run-status-sel.Passed{background:#e1f5ee;color:#0f6e56;border-color:#5dcaa5}
@@ -358,7 +367,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .gdrive-dd-btn:hover{opacity:.88}
 .gdrive-dd-btn .dot{width:7px;height:7px;border-radius:50%;background:#bbb;flex-shrink:0;transition:background .3s}
 .gdrive-dd-btn .dot.ok{background:#34a853}
-.gdrive-dd-menu{display:none;position:absolute;top:calc(100% + 5px);right:0;z-index:300;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);box-shadow:0 4px 20px rgba(0,0,0,.13);min-width:210px;overflow:hidden}
+.gdrive-dd-menu{display:none;position:fixed;top:48px;right:12px;z-index:9000;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);box-shadow:0 4px 24px rgba(0,0,0,.18);min-width:210px;overflow:hidden}
 .gdrive-dd-menu.open{display:block}
 .gdrive-dd-head{padding:10px 14px 8px;border-bottom:0.5px solid var(--border)}
 .gdrive-dd-head-title{font-size:12px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
@@ -596,6 +605,12 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
           </select>
           <select id="nr-sprint-filter" onchange="renderTCSelector()" style="font-size:12px;padding:5px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none">
             <option value="">All sprints</option>
+          </select>
+          <select id="nr-priority-filter" onchange="renderTCSelector()" style="font-size:12px;padding:5px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none">
+            <option value="">All priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
           </select>
           <div class="multi-sel-wrap" id="nrTypeWrap">
             <button class="multi-sel-btn" id="nrTypeBtn" onclick="toggleNrTypeDropdown(event)">
@@ -900,6 +915,8 @@ function clearTypeFilter(){
 }
 function closeAllDropdowns(){
   document.querySelectorAll('.multi-sel-drop').forEach(d=>d.classList.remove('open'));
+  const dm=document.getElementById('gdriveDdMenu');
+  if(dm) dm.classList.remove('open');
 }
 document.addEventListener('click',closeAllDropdowns);
 
@@ -1402,10 +1419,12 @@ function renderTCSelector(){
   const q=document.getElementById('nr-search').value.toLowerCase();
   const sf=document.getElementById('nr-suite-filter').value;
   const sp=document.getElementById('nr-sprint-filter').value;
+  const pr=document.getElementById('nr-priority-filter').value;
   let list=testcases.filter(t=>t.teamId===activeTeamId);
   if(q)list=list.filter(t=>t.title.toLowerCase().includes(q)||t.id.toLowerCase().includes(q));
   if(sf)list=list.filter(t=>t.suiteId===sf);
   if(sp)list=list.filter(t=>(t.sprint||'')===sp);
+  if(pr)list=list.filter(t=>t.priority===pr);
   if(nrSelectedTypes.size)list=list.filter(t=>nrSelectedTypes.has(t.type));
   const wrap=document.getElementById('tcSelector');wrap.innerHTML='';
   list.forEach(tc=>{
@@ -1416,10 +1435,11 @@ function renderTCSelector(){
     row.appendChild(cb);
     const sprintTag=tc.sprint?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:1px 6px;border-radius:10px;flex-shrink:0">${esc(tc.sprint)}</span>`:'';
     const typeTag=tc.type?`<span class="badge ${tc.type}" style="font-size:10px;padding:1px 7px;flex-shrink:0">${tc.type}</span>`:'';
+    const priorTag=tc.priority?`<span class="badge ${tc.priority}" style="font-size:10px;padding:1px 7px;flex-shrink:0">${tc.priority}</span>`:'';
     const idSpan=document.createElement('span');idSpan.className='tc-sel-id';idSpan.textContent=tc.id;
     const titleSpan=document.createElement('span');titleSpan.style.flex='1';titleSpan.textContent=tc.title;
     row.appendChild(idSpan);row.appendChild(titleSpan);
-    row.insertAdjacentHTML('beforeend',typeTag+sprintTag);
+    row.insertAdjacentHTML('beforeend',typeTag+priorTag+sprintTag);
     row.onclick=e=>{if(e.target.tagName==='INPUT')return;cb.checked=!cb.checked;onChange();};
     wrap.appendChild(row);
   });
@@ -1430,10 +1450,12 @@ function selectAllTC(sel){
   const q=document.getElementById('nr-search').value.toLowerCase();
   const sf=document.getElementById('nr-suite-filter').value;
   const sp=document.getElementById('nr-sprint-filter').value;
+  const pr=document.getElementById('nr-priority-filter').value;
   let list=testcases.filter(t=>t.teamId===activeTeamId);
   if(q)list=list.filter(t=>t.title.toLowerCase().includes(q)||t.id.toLowerCase().includes(q));
   if(sf)list=list.filter(t=>t.suiteId===sf);
   if(sp)list=list.filter(t=>(t.sprint||'')===sp);
+  if(pr)list=list.filter(t=>t.priority===pr);
   if(nrSelectedTypes.size)list=list.filter(t=>nrSelectedTypes.has(t.type));
   list.forEach(t=>{if(sel)selectedTCIds.add(t.id);else selectedTCIds.delete(t.id);});
   renderTCSelector();
@@ -1482,6 +1504,7 @@ function renderRuns(plan){
           ${stats.Blocked?`<span class="badge Blocked">${stats.Blocked} blocked</span>`:''}
           ${stats.Untested?`<span class="badge Untested">${stats.Untested} untested</span>`:''}
           <button class="btn sm" onclick="event.stopPropagation();showRunAnalytics('${plan.id}','${run.id}')"><i class="ti ti-chart-bar"></i> Analytics</button>
+          <button class="btn sm" onclick="event.stopPropagation();exportRunExcel('${plan.id}','${run.id}')"><i class="ti ti-table-export"></i> Export</button>
           <button class="btn danger-soft sm" onclick="event.stopPropagation();deleteRun('${plan.id}','${run.id}')"><i class="ti ti-trash"></i></button>
           <i class="ti ti-chevron-down" style="color:var(--text3);font-size:15px" id="chev-${run.id}"></i>
         </div>
@@ -1493,7 +1516,7 @@ function renderRuns(plan){
   });
 }
 function renderRunRow(c,pid,rid){
-  const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted TC)',suiteId:''};
+  const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted TC)',suiteId:'',type:'',priority:'',preconditions:'',steps:[],tags:[]};
   const attHtml=c.attachments&&c.attachments.length?
     `<div class="attach-thumb">${c.attachments.map((a,ai)=>`
       <div class="attach-thumb-item" onclick="openLightbox('${pid}','${rid}','${c.tcId}',${ai})">
@@ -1501,20 +1524,46 @@ function renderRunRow(c,pid,rid){
         <button class="del-attach" onclick="event.stopPropagation();removeAttachment('${pid}','${rid}','${c.tcId}',${ai})" title="Remove"><i class="ti ti-x"></i></button>
       </div>`).join('')}
     </div>`:'';
+  const stepsHtml=(tc.steps&&tc.steps.length)?`
+    <div class="run-tc-steps">
+      <div class="run-tc-steps-head" style="display:grid;grid-template-columns:24px 1fr 1fr">
+        <div style="border-right:0.5px solid var(--border);text-align:center">#</div>
+        <div style="padding-left:8px">Action</div>
+        <div style="padding-left:8px;border-left:0.5px solid var(--border)">Expected Result</div>
+      </div>
+      ${tc.steps.map((s,i)=>`
+        <div class="run-tc-step-row">
+          <div class="run-tc-step-num">${i+1}</div>
+          <div style="border-right:0.5px solid var(--border)">${esc(s.action||'')}</div>
+          <div>${esc(s.expected||'')}</div>
+        </div>`).join('')}
+    </div>`:'';
+  const tagsHtml=(tc.tags&&tc.tags.length)?tc.tags.map(t=>`<span style="font-size:10px;background:var(--bg3);color:var(--text2);padding:1px 7px;border-radius:10px">${esc(t)}</span>`).join(''):'';
   return `<div class="run-tc-row" id="rrow-${rid}-${c.tcId}">
     <span class="run-tc-id">${tc.id}</span>
-    <div style="flex:1;min-width:100px">
+    <div style="flex:1;min-width:200px">
       <div class="run-tc-title">${esc(tc.title)}</div>
+      <div class="run-tc-meta">
+        ${tc.type?`<span class="badge ${tc.type}" style="font-size:10px;padding:1px 7px">${tc.type}</span>`:''}
+        ${tc.priority?`<span class="badge ${tc.priority}" style="font-size:10px;padding:1px 7px">${tc.priority}</span>`:''}
+        ${tc.sprint?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:1px 7px;border-radius:10px">${esc(tc.sprint)}</span>`:''}
+        ${tc.suiteId?`<span style="font-size:10px;color:var(--text3)"><i class="ti ti-folder" style="font-size:10px"></i> ${esc(suiteName(tc.suiteId))}</span>`:''}
+        ${tagsHtml}
+      </div>
+      ${tc.preconditions?`<div class="run-tc-field"><strong>Preconditions:</strong> ${esc(tc.preconditions)}</div>`:''}
+      ${stepsHtml}
       ${attHtml}
       <textarea class="run-notes" placeholder="Notes…" oninput="updateNotes('${pid}','${rid}','${c.tcId}',this.value)" rows="1">${esc(c.notes||'')}</textarea>
     </div>
-    <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
-      ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
-    </select>
-    <label class="attach-btn" title="Attach screenshot/video">
-      <i class="ti ti-paperclip"></i> Evidence
-      <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
-    </label>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0">
+      <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
+        ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
+      </select>
+      <label class="attach-btn" title="Attach screenshot/video">
+        <i class="ti ti-paperclip"></i> Evidence
+        <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
+      </label>
+    </div>
   </div>`;
 }
 function toggleRun(pid,rid){
@@ -1530,6 +1579,34 @@ function deleteRun(pid,rid){
   const _drname=(plan.runs.find(r=>r.id===rid)||{name:'?'}).name;
   plan.runs=plan.runs.filter(r=>r.id!==rid);
   saveData(`Run deleted: ${_drname}`);renderRuns(plan);showToast('Run deleted');
+}
+function exportRunExcel(pid,rid){
+  const plan=plans.find(p=>p.id===pid);if(!plan)return;
+  const run=plan.runs.find(r=>r.id===rid);if(!run)return;
+  const rows=run.cases.map(c=>{
+    const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted)',type:'',priority:'',suiteId:'',sprint:'',preconditions:'',steps:[],tags:[]};
+    const steps=(tc.steps||[]).map((s,i)=>`${i+1}. [Action] ${s.action||''} | [Expected] ${s.expected||''}`).join('\n');
+    return {
+      'TC ID':tc.id,
+      'Title':tc.title,
+      'Suite':suiteName(tc.suiteId),
+      'Type':tc.type||'',
+      'Priority':tc.priority||'',
+      'Sprint':tc.sprint||'',
+      'Preconditions':tc.preconditions||'',
+      'Steps':steps,
+      'Tags':(tc.tags||[]).join(', '),
+      'Status':c.status,
+      'Notes':c.notes||''
+    };
+  });
+  const ws=XLSX.utils.json_to_sheet(rows);
+  // Column widths
+  ws['!cols']=[{wch:10},{wch:35},{wch:20},{wch:12},{wch:10},{wch:12},{wch:25},{wch:60},{wch:20},{wch:12},{wch:30}];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,run.name.slice(0,31));
+  XLSX.writeFile(wb,`${run.name.replace(/[^a-z0-9]/gi,'_')}.xlsx`);
+  showToast('✓ Exported: '+run.name+'.xlsx');
 }
 function updateRunStatus(pid,rid,tcId,val,sel){
   const plan=plans.find(p=>p.id===pid);if(!plan)return;
@@ -2464,9 +2541,9 @@ function gdSignOut(){
 function toggleDriveDropdown(e){
   e.stopPropagation();
   const menu=document.getElementById('gdriveDdMenu');
-  const open=menu.classList.contains('open');
+  const wasOpen=menu.classList.contains('open');
   closeAllDropdowns();
-  if(!open) menu.classList.add('open');
+  if(!wasOpen) menu.classList.add('open');
 }
 function closeDriveDropdown(){
   const m=document.getElementById('gdriveDdMenu');
