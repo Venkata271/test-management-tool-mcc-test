@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://accounts.google.com/gsi/client" async></script>
-<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://apis.google.com/js/api.js" async></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -250,25 +250,10 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .run-progress-bar span{transition:width .3s}
 .run-body{display:none;border-top:0.5px solid var(--border);border-radius:0 0 var(--rl) var(--rl);overflow:hidden}
 .run-body.open{display:block}
-.run-tc-row{display:flex;flex-direction:column;gap:0;padding:0;border-bottom:0.5px solid var(--border)}
+.run-tc-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
 .run-tc-row:last-child{border-bottom:none}
-.run-tc-header{display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap}
 .run-tc-id{font-size:11px;color:var(--text3);font-family:monospace;flex-shrink:0;width:58px}
-.run-tc-title{font-size:13px;font-weight:500;flex:1;min-width:100px}
-.run-tc-body{padding:0 14px 12px 14px;display:flex;flex-direction:column;gap:10px}
-.run-tc-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px}
-.run-tc-section{display:flex;flex-direction:column;gap:4px}
-.run-tc-section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:1px}
-.run-tc-precondition{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:var(--r);padding:6px 10px;line-height:1.5;white-space:pre-wrap}
-.run-tc-steps-table{width:100%;border-collapse:collapse;font-size:12px;border:0.5px solid var(--border2);border-radius:var(--r);overflow:hidden}
-.run-tc-steps-table th{background:var(--bg3);padding:5px 10px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:0.5px solid var(--border2)}
-.run-tc-steps-table td{padding:6px 10px;border-bottom:0.5px solid var(--border);vertical-align:top;line-height:1.5;color:var(--text)}
-.run-tc-steps-table tr:last-child td{border-bottom:none}
-.run-tc-steps-table td:first-child{width:28px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;background:var(--bg2)}
-.run-tc-steps-table td.expected{color:var(--success-text);background:var(--success-bg)}
-.run-tc-acceptance{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:var(--r);padding:6px 10px;line-height:1.6;white-space:pre-wrap}
-.run-tc-tags{display:flex;flex-wrap:wrap;gap:4px}
-.run-tc-tag{font-size:10px;background:var(--bg3);color:var(--text2);border-radius:10px;padding:2px 8px;border:0.5px solid var(--border2)}
+.run-tc-title{flex:1;font-size:13px;min-width:100px}
 .run-status-sel{font-size:12px;padding:4px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;cursor:pointer}
 .run-status-sel:focus{border-color:var(--info-border)}
 .run-status-sel.Passed{background:#e1f5ee;color:#0f6e56;border-color:#5dcaa5}
@@ -365,12 +350,20 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 
 /* GOOGLE DRIVE */
 .gdrive-sep{width:1px;background:var(--border);height:20px;margin:0 2px;flex-shrink:0}
+.btn.gdrive{background:#e8f5e9;color:#1b5e20;border-color:#66bb6a;gap:5px}
+.btn.gdrive:hover{opacity:.88}
+.btn.gdrive-load{background:#e3f2fd;color:#0d47a1;border-color:#64b5f6}
+.btn.gdrive-load:hover{opacity:.88}
+.gdrive-status{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.gdrive-status.linked{color:var(--success-text)}
+.gdrive-status.error{color:var(--danger-text)}
+/* Drive dropdown */
 .gdrive-dd-wrap{position:relative;flex-shrink:0}
 .gdrive-dd-btn{font-size:12px;padding:6px 11px;border-radius:var(--r);border:0.5px solid #64b5f6;background:#e3f2fd;color:#0d47a1;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .gdrive-dd-btn:hover{opacity:.88}
 .gdrive-dd-btn .dot{width:7px;height:7px;border-radius:50%;background:#bbb;flex-shrink:0}
 .gdrive-dd-btn .dot.ok{background:#34a853}
-.gdrive-dd-menu{display:none;position:fixed;top:48px;right:16px;z-index:1000;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);box-shadow:0 4px 20px rgba(0,0,0,.13);min-width:220px;overflow:hidden}
+.gdrive-dd-menu{display:none;position:absolute;top:calc(100% + 5px);right:0;z-index:300;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);box-shadow:0 4px 20px rgba(0,0,0,.13);min-width:210px;overflow:hidden}
 .gdrive-dd-menu.open{display:block}
 .gdrive-dd-head{padding:10px 14px 8px;border-bottom:0.5px solid var(--border)}
 .gdrive-dd-head-title{font-size:12px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
@@ -388,6 +381,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .gdrive-dd-user-email{font-size:10px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .gdrive-dd-signout{font-size:11px;color:var(--danger-text);background:transparent;border:none;cursor:pointer;padding:0;flex-shrink:0}
 .gdrive-dd-signout:hover{text-decoration:underline}
+/* Modal styles */
 .gdrive-modal-body{display:flex;flex-direction:column;gap:16px}
 .gdrive-file-list{border:0.5px solid var(--border2);border-radius:var(--r);max-height:260px;overflow-y:auto}
 .gdrive-file-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:0.5px solid var(--border);cursor:pointer;font-size:13px;transition:background .1s}
@@ -471,7 +465,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <span class="dot" id="gdriveDot"></span>
         <i class="ti ti-chevron-down" style="font-size:11px;color:inherit;opacity:.7"></i>
       </button>
-      <div class="gdrive-dd-menu" id="gdriveDdMenu" onclick="event.stopPropagation()">
+      <div class="gdrive-dd-menu" id="gdriveDdMenu">
         <div class="gdrive-dd-head">
           <div class="gdrive-dd-head-title"><i class="ti ti-brand-google-drive" style="color:#4285F4"></i> Google Drive</div>
           <div class="gdrive-dd-head-sub" id="gdriveDdSub">Not signed in</div>
@@ -483,7 +477,9 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
           <i class="ti ti-cloud-upload"></i> Save to Drive
         </button>
         <div class="gdrive-dd-sep"></div>
-        <div class="gdrive-dd-user" id="gdriveDdUser" style="display:none"></div>
+        <div class="gdrive-dd-user" id="gdriveDdUser" style="display:none">
+          <!-- filled by JS -->
+        </div>
       </div>
     </div>
   </div>
@@ -676,7 +672,9 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
       <h2 id="driveModalTitle"><i class="ti ti-brand-google-drive" style="color:#4285F4"></i> Google Drive</h2>
       <button class="btn sm" onclick="closeDriveModal()"><i class="ti ti-x"></i></button>
     </div>
-    <div class="modal-body gdrive-modal-body" id="driveModalBody"></div>
+    <div class="modal-body gdrive-modal-body" id="driveModalBody">
+      <!-- Content injected by JS -->
+    </div>
     <div class="modal-foot" id="driveModalFoot">
       <button class="btn" onclick="closeDriveModal()">Cancel</button>
       <button class="btn primary" id="driveModalAction" onclick="doDriveAction()" disabled></button>
@@ -925,8 +923,6 @@ function clearTypeFilter(){
 }
 function closeAllDropdowns(){
   document.querySelectorAll('.multi-sel-drop').forEach(d=>d.classList.remove('open'));
-  const driveMenu=document.getElementById('gdriveDdMenu');
-  if(driveMenu) driveMenu.classList.remove('open');
 }
 document.addEventListener('click',closeAllDropdowns);
 
@@ -1520,7 +1516,7 @@ function renderRuns(plan){
   });
 }
 function renderRunRow(c,pid,rid){
-  const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted TC)',suiteId:'',steps:[],tags:[]};
+  const tc=testcases.find(t=>t.id===c.tcId)||{id:c.tcId,title:'(deleted TC)',suiteId:''};
   const attHtml=c.attachments&&c.attachments.length?
     `<div class="attach-thumb">${c.attachments.map((a,ai)=>`
       <div class="attach-thumb-item" onclick="openLightbox('${pid}','${rid}','${c.tcId}',${ai})">
@@ -1528,77 +1524,20 @@ function renderRunRow(c,pid,rid){
         <button class="del-attach" onclick="event.stopPropagation();removeAttachment('${pid}','${rid}','${c.tcId}',${ai})" title="Remove"><i class="ti ti-x"></i></button>
       </div>`).join('')}
     </div>`:'';
-
-  // Badges: type, priority, sprint
-  const typeBadge=tc.type?`<span class="badge ${tc.type}" style="font-size:10px;padding:1px 7px">${tc.type}</span>`:'';
-  const prioBadge=tc.priority?`<span class="badge ${tc.priority}" style="font-size:10px;padding:1px 7px">${tc.priority}</span>`:'';
-  const sprintBadge=tc.sprint?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:10px;border:0.5px solid var(--border2)">${esc(tc.sprint)}</span>`:'';
-  const suiteBadge=tc.suiteId?`<span style="font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:10px;border:0.5px solid var(--border2)"><i class="ti ti-folder" style="font-size:9px"></i> ${esc(suiteName(tc.suiteId))}</span>`:'';
-
-  // Preconditions
-  const preHtml=tc.preconditions?`
-    <div class="run-tc-section">
-      <div class="run-tc-section-label"><i class="ti ti-arrow-right-bar"></i> Preconditions</div>
-      <div class="run-tc-precondition">${esc(tc.preconditions)}</div>
-    </div>`:'';
-
-  // Steps table
-  const steps=tc.steps||[];
-  const stepsHtml=steps.length?`
-    <div class="run-tc-section">
-      <div class="run-tc-section-label"><i class="ti ti-list-numbers"></i> Steps &amp; Expected Results</div>
-      <table class="run-tc-steps-table">
-        <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
-        <tbody>${steps.map((s,i)=>`
-          <tr>
-            <td>${i+1}</td>
-            <td>${esc(s.action||'')}</td>
-            <td class="expected">${esc(s.expected||'')}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`:'';
-
-  // Acceptance criteria
-  const accHtml=tc.acceptance?`
-    <div class="run-tc-section">
-      <div class="run-tc-section-label"><i class="ti ti-circle-check"></i> Acceptance Criteria</div>
-      <div class="run-tc-acceptance">${esc(tc.acceptance)}</div>
-    </div>`:'';
-
-  // Tags
-  const tags=(tc.tags||[]).filter(Boolean);
-  const tagsHtml=tags.length?`
-    <div class="run-tc-section">
-      <div class="run-tc-tags">${tags.map(t=>`<span class="run-tc-tag">${esc(t)}</span>`).join('')}</div>
-    </div>`:'';
-
   return `<div class="run-tc-row" id="rrow-${rid}-${c.tcId}">
-    <div class="run-tc-header">
-      <span class="run-tc-id">${tc.id}</span>
-      <div style="flex:1;min-width:100px">
-        <div class="run-tc-title">${esc(tc.title)}</div>
-        <div class="run-tc-badges" style="margin-top:4px">${typeBadge}${prioBadge}${sprintBadge}${suiteBadge}</div>
-      </div>
-      <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
-        ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
-      </select>
-      <label class="attach-btn" title="Attach screenshot/video">
-        <i class="ti ti-paperclip"></i> Evidence
-        <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
-      </label>
-    </div>
-    <div class="run-tc-body">
-      ${preHtml}
-      ${stepsHtml}
-      ${accHtml}
-      ${tagsHtml}
+    <span class="run-tc-id">${tc.id}</span>
+    <div style="flex:1;min-width:100px">
+      <div class="run-tc-title">${esc(tc.title)}</div>
       ${attHtml}
-      <div class="run-tc-section">
-        <div class="run-tc-section-label"><i class="ti ti-notes"></i> Notes</div>
-        <textarea class="run-notes" placeholder="Add notes, observations, or bug links…" oninput="updateNotes('${pid}','${rid}','${c.tcId}',this.value)" rows="2">${esc(c.notes||'')}</textarea>
-      </div>
+      <textarea class="run-notes" placeholder="Notes…" oninput="updateNotes('${pid}','${rid}','${c.tcId}',this.value)" rows="1">${esc(c.notes||'')}</textarea>
     </div>
+    <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
+      ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
+    </select>
+    <label class="attach-btn" title="Attach screenshot/video">
+      <i class="ti ti-paperclip"></i> Evidence
+      <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
+    </label>
   </div>`;
 }
 function toggleRun(pid,rid){
@@ -2452,18 +2391,15 @@ showUserScreen();
 /* ══════════════════════════════════════════════════════
    GOOGLE DRIVE INTEGRATION
    ══════════════════════════════════════════════════════
-   Setup: replace GD_CLIENT_ID and GD_API_KEY below with
-   your credentials from https://console.cloud.google.com
+   SETUP: Replace the two values below with your own credentials.
+   Get them at: https://console.cloud.google.com
    ══════════════════════════════════════════════════════ */
 
 const GD_CLIENT_ID  = '55284085448-btiandekdgpcpkt0i2ur3qbr9e2l4t2p.apps.googleusercontent.com';
 const GD_API_KEY    = 'AIzaSyA3f0m2fEhwGJCfdbPVT54-nGvPHxYc_ME';
-// Full "drive" scope (NOT drive.file) — required so any signed-in user
-// can update a file that a DIFFERENT user created. drive.file would only
-// allow access to files this exact app instance created, causing 403s
-// when teammates try to overwrite a shared file.
-const GD_SCOPE      = 'https://www.googleapis.com/auth/drive';
+const GD_SCOPE      = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly';
 const GD_FILENAME   = 'testcase-manager.html';
+const GD_FOLDER_MIME = 'application/vnd.google-apps.folder';
 
 let _gdTokenClient  = null;
 let _gdAccessToken  = null;
@@ -2473,11 +2409,7 @@ let _gdSelectedFileId   = null;
 let _gdSelectedFileName = null;
 let _gdFiles        = [];
 let _gdFolderId     = null;
-let _gdConfigured   = false;
-let _gdPendingRetry = null;
-let _gdRefreshTimer = null;
-let _gdPickerLoaded = false;
-let _gdPickerLoading= false;
+let _gdConfigured   = false; // true once Client ID is set
 
 /* ── Dropdown ── */
 function toggleDriveDropdown(e){
@@ -2485,14 +2417,7 @@ function toggleDriveDropdown(e){
   const menu = document.getElementById('gdriveDdMenu');
   const isOpen = menu.classList.contains('open');
   closeAllDropdowns();
-  if(!isOpen){
-    const btn = document.getElementById('gdriveDdBtn');
-    const rect = btn.getBoundingClientRect();
-    menu.style.top = (rect.bottom + 5) + 'px';
-    menu.style.right = (window.innerWidth - rect.right) + 'px';
-    menu.style.left = 'auto';
-    menu.classList.add('open');
-  }
+  if(!isOpen) menu.classList.add('open');
 }
 function closeDriveDropdown(){
   const menu = document.getElementById('gdriveDdMenu');
@@ -2502,8 +2427,16 @@ function closeDriveDropdown(){
 /* ── Init ── */
 function gdInit(){
   _gdConfigured = (GD_CLIENT_ID !== 'YOUR_GOOGLE_CLIENT_ID_HERE');
-  if(!_gdConfigured){ gdUpdateDropdownUI(); return; }
-  if(!window.google || !window.google.accounts){ setTimeout(gdInit, 600); return; }
+
+  if(!_gdConfigured){
+    gdUpdateDropdownUI();
+    return;
+  }
+
+  if(!window.google || !window.google.accounts){
+    setTimeout(gdInit, 600);
+    return;
+  }
 
   _gdTokenClient = google.accounts.oauth2.initTokenClient({
     client_id: GD_CLIENT_ID,
@@ -2511,84 +2444,53 @@ function gdInit(){
     callback: gdHandleToken,
   });
 
+  // Restore token from session (survives page refresh, not browser close)
   const saved = sessionStorage.getItem('gd_token');
-  const exp   = parseInt(sessionStorage.getItem('gd_token_exp')||'0');
-  if(saved && Date.now() < exp){
-    _gdAccessToken = saved;
-    gdFetchUserInfo();
-    gdScheduleRefresh(Math.floor((exp - Date.now()) / 1000));
-  } else {
-    sessionStorage.removeItem('gd_token');
-    sessionStorage.removeItem('gd_token_exp');
-    gdUpdateDropdownUI();
-  }
+  if(saved){ _gdAccessToken = saved; gdFetchUserInfo(); }
+  else { gdUpdateDropdownUI(); }
 }
 
 function gdHandleToken(resp){
   if(resp.error){ showToast('Google sign-in failed: '+resp.error); gdUpdateDropdownUI(); return; }
   _gdAccessToken = resp.access_token;
-  const expiresAt = Date.now() + ((resp.expires_in||3600) - 300) * 1000;
   sessionStorage.setItem('gd_token', _gdAccessToken);
-  sessionStorage.setItem('gd_token_exp', expiresAt);
   gdFetchUserInfo();
-  gdScheduleRefresh((resp.expires_in||3600) - 300);
-  if(_gdPendingRetry){
-    const fn=_gdPendingRetry; _gdPendingRetry=null;
-    setTimeout(fn, 500);
-  }
+  // Re-render whatever modal is open now that we have a token
   if(document.getElementById('driveModal').classList.contains('open')){
     renderDriveModalBody();
     gdLoadFileList();
   }
 }
 
-function gdScheduleRefresh(secondsUntil){
-  if(_gdRefreshTimer) clearTimeout(_gdRefreshTimer);
-  _gdRefreshTimer = setTimeout(()=>{
-    if(_gdTokenClient) _gdTokenClient.requestAccessToken({ prompt:'' });
-  }, Math.max(secondsUntil,5) * 1000);
-}
-
 function gdFetchUserInfo(){
   if(!_gdAccessToken) return;
   fetch('https://www.googleapis.com/oauth2/v3/userinfo',{
     headers:{ Authorization:'Bearer '+_gdAccessToken }
-  }).then(r=>{
-    if(r.status===401){ gdHandleExpiredToken(); return null; }
-    return r.json();
-  }).then(info=>{
-    if(!info) return;
+  }).then(r=>r.json()).then(info=>{
     _gdUser = { name:info.name, email:info.email, picture:info.picture };
     gdUpdateDropdownUI();
   }).catch(()=>{ gdUpdateDropdownUI(); });
 }
 
-function gdHandleExpiredToken(retryFn){
-  _gdAccessToken = null; _gdUser = null;
-  sessionStorage.removeItem('gd_token');
-  sessionStorage.removeItem('gd_token_exp');
-  gdUpdateDropdownUI();
-  if(!_gdTokenClient){ gdInit(); return; }
-  _gdPendingRetry = retryFn || null;
-  _gdTokenClient.requestAccessToken({ prompt:'' });
-  showToast('Session expired — signing in again…');
-}
-
 function gdUpdateDropdownUI(){
-  const dot=document.getElementById('gdriveDot');
-  const sub=document.getElementById('gdriveDdSub');
-  const userEl=document.getElementById('gdriveDdUser');
+  const dot    = document.getElementById('gdriveDot');
+  const sub    = document.getElementById('gdriveDdSub');
+  const userEl = document.getElementById('gdriveDdUser');
   if(!dot) return;
+
   if(!_gdConfigured){
-    dot.className='dot'; if(sub) sub.textContent='⚠ API not configured';
-    if(userEl) userEl.style.display='none'; return;
+    dot.className = 'dot';
+    if(sub) sub.textContent = '⚠ API not configured';
+    if(userEl) userEl.style.display = 'none';
+    return;
   }
+
   if(_gdUser){
-    dot.className='dot ok';
-    if(sub) sub.textContent='Signed in as '+_gdUser.name;
+    dot.className = 'dot ok';
+    if(sub) sub.textContent = 'Signed in as '+_gdUser.name;
     if(userEl){
-      userEl.style.display='flex';
-      userEl.innerHTML=`
+      userEl.style.display = 'flex';
+      userEl.innerHTML = `
         ${_gdUser.picture?`<img src="${_gdUser.picture}" alt="">`:'<i class="ti ti-user-circle" style="font-size:22px;color:var(--text3)"></i>'}
         <div class="gdrive-dd-user-info">
           <div class="gdrive-dd-user-name">${esc(_gdUser.name)}</div>
@@ -2597,14 +2499,17 @@ function gdUpdateDropdownUI(){
         <button class="gdrive-dd-signout" onclick="gdSignOut()">Sign out</button>`;
     }
   } else {
-    dot.className='dot';
-    if(sub) sub.textContent='Not signed in';
-    if(userEl) userEl.style.display='none';
+    dot.className = 'dot';
+    if(sub) sub.textContent = 'Not signed in';
+    if(userEl) userEl.style.display = 'none';
   }
 }
 
 function gdSignIn(){
-  if(!_gdConfigured){ showToast('⚠ Add your Google Client ID to the HTML file first'); return; }
+  if(!_gdConfigured){
+    showToast('⚠ Add your Google Client ID to the HTML file first');
+    return;
+  }
   if(!_gdTokenClient){ showToast('Google APIs loading — try again in a moment'); gdInit(); return; }
   if(_gdAccessToken){ gdLoadFileList(); return; }
   _gdTokenClient.requestAccessToken({ prompt:'' });
@@ -2612,10 +2517,9 @@ function gdSignIn(){
 
 function gdSignOut(){
   if(_gdAccessToken) google.accounts.oauth2.revoke(_gdAccessToken,()=>{});
-  _gdAccessToken=null; _gdUser=null;
+  _gdAccessToken = null;
+  _gdUser = null;
   sessionStorage.removeItem('gd_token');
-  sessionStorage.removeItem('gd_token_exp');
-  if(_gdRefreshTimer) clearTimeout(_gdRefreshTimer);
   closeDriveDropdown();
   gdUpdateDropdownUI();
   if(document.getElementById('driveModal').classList.contains('open')) renderDriveModalBody();
@@ -2623,8 +2527,10 @@ function gdSignOut(){
 
 /* ── Modal ── */
 function openDriveModal(mode){
-  _gdMode=mode; _gdSelectedFileId=null; _gdSelectedFileName=null;
-  const title=document.getElementById('driveModalTitle');
+  _gdMode = mode;
+  _gdSelectedFileId = null;
+  _gdSelectedFileName = null;
+  const title = document.getElementById('driveModalTitle');
   title.innerHTML = mode==='save'
     ? '<i class="ti ti-brand-google-drive" style="color:#4285F4"></i> Save to Google Drive'
     : '<i class="ti ti-brand-google-drive" style="color:#4285F4"></i> Load from Google Drive';
@@ -2634,50 +2540,69 @@ function openDriveModal(mode){
 }
 function closeDriveModal(){
   document.getElementById('driveModal').classList.remove('open');
-  _gdSelectedFileId=null;
+  _gdSelectedFileId = null;
 }
 
+/* ── Modal body ── */
 function renderDriveModalBody(){
-  const body=document.getElementById('driveModalBody');
-  const foot=document.getElementById('driveModalFoot');
-  const actionBtn=document.getElementById('driveModalAction');
+  const body = document.getElementById('driveModalBody');
+  const foot = document.getElementById('driveModalFoot');
+  const actionBtn = document.getElementById('driveModalAction');
 
+  // Not configured yet — show setup instructions
   if(!_gdConfigured){
-    body.innerHTML=`
+    body.innerHTML = `
       <div class="gdrive-setup-banner">
         <i class="ti ti-alert-triangle"></i>
-        <div><strong>Google API not configured.</strong> Add your Client ID and API Key in the script.</div>
+        <div>
+          <strong>Google API not configured yet.</strong><br>
+          Open this HTML file in a text editor and replace:<br>
+          <code style="font-size:11px;background:rgba(0,0,0,.07);padding:2px 5px;border-radius:3px">YOUR_GOOGLE_CLIENT_ID_HERE</code> and
+          <code style="font-size:11px;background:rgba(0,0,0,.07);padding:2px 5px;border-radius:3px">YOUR_GOOGLE_API_KEY_HERE</code><br>
+          with your credentials from <a href="https://console.cloud.google.com" target="_blank" style="color:var(--info-text)">console.cloud.google.com</a>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;padding:4px 0">
+        <strong>Quick setup (5 min):</strong><br>
+        1. Go to <a href="https://console.cloud.google.com" target="_blank" style="color:var(--info-text)">console.cloud.google.com</a><br>
+        2. Create a project → Enable <strong>Google Drive API</strong> &amp; <strong>Google Picker API</strong><br>
+        3. Credentials → Create <strong>OAuth 2.0 Client ID</strong> (Web app type)<br>
+        4. Credentials → Create <strong>API Key</strong><br>
+        5. Paste both into this HTML file and re-open it
       </div>`;
-    foot.style.display='none'; return;
+    foot.style.display = 'none';
+    return;
   }
 
+  // Not signed in
   if(!_gdAccessToken){
-    body.innerHTML=`
+    body.innerHTML = `
       <div class="gdrive-sign-in-wrap">
         <i class="ti ti-brand-google-drive" style="font-size:52px;color:#4285F4"></i>
-        <p>Sign in with Google to access your team's shared Drive file.</p>
+        <p>Sign in with Google to access your Drive. Your team can all work from the same HTML file stored in a shared Drive folder.</p>
         <button class="btn primary" style="padding:10px 24px;font-size:13px" onclick="gdSignIn()">
           <i class="ti ti-brand-google"></i> Sign in with Google
         </button>
       </div>`;
-    foot.style.display='none'; return;
+    foot.style.display = 'none';
+    return;
   }
 
-  foot.style.display='flex';
-  actionBtn.disabled=true;
+  foot.style.display = 'flex';
+  actionBtn.disabled = true;
   actionBtn.innerHTML = _gdMode==='save'
     ? '<i class="ti ti-cloud-upload"></i> Upload to Drive'
     : '<i class="ti ti-cloud-download"></i> Load this file';
 
-  const userRow=_gdUser?`
+  const userRow = _gdUser ? `
     <div class="gdrive-user-row">
       ${_gdUser.picture?`<img class="gdrive-avatar" src="${_gdUser.picture}" alt="">`:'<i class="ti ti-user-circle" style="font-size:22px"></i>'}
       <span><strong>${esc(_gdUser.name)}</strong> — ${esc(_gdUser.email)}</span>
       <button class="btn sm danger-soft" style="margin-left:auto" onclick="gdSignOut()">Sign out</button>
-    </div>`:'';
+    </div>` : '';
 
   if(_gdMode==='save'){
-    body.innerHTML=userRow+`
+    body.innerHTML = userRow+`
       <div>
         <div class="gdrive-section-label">File name</div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -2689,17 +2614,17 @@ function renderDriveModalBody(){
         <div style="font-size:11px;color:var(--text3);margin-top:5px" id="gdFolderLabel">📁 Saving to: My Drive (root)</div>
       </div>
       <div>
-        <div class="gdrive-section-label">Select the shared team file to overwrite</div>
+        <div class="gdrive-section-label">Or overwrite an existing file</div>
         <div class="gdrive-file-list" id="gdFileList">
           <div class="gdrive-empty"><span class="gdrive-spinner"></span>&nbsp; Loading your Drive files…</div>
         </div>
       </div>
       <div style="font-size:11px;color:var(--text3);line-height:1.7;padding:8px 10px;background:var(--bg2);border-radius:var(--r)">
-        <i class="ti ti-info-circle"></i> If the upload fails with a permission error, ask the file owner to share it with you as <strong>Editor</strong>, or use a Shared Drive where you're a <strong>Content manager</strong>.
+        <i class="ti ti-info-circle"></i> The uploaded HTML contains all test cases baked in. Share the Drive file with teammates — they download it, open in browser, and click "Load from Drive" to sync.
       </div>`;
     gdCheckSaveReady();
   } else {
-    body.innerHTML=userRow+`
+    body.innerHTML = userRow+`
       <div>
         <div class="gdrive-section-label">Select a Test Manager file from Drive</div>
         <div class="gdrive-file-list" id="gdFileList">
@@ -2707,7 +2632,7 @@ function renderDriveModalBody(){
         </div>
       </div>
       <div style="font-size:11px;color:var(--text3);line-height:1.7;padding:8px 10px;background:var(--bg2);border-radius:var(--r)">
-        <i class="ti ti-info-circle"></i> Loading merges Drive test cases with your local ones. Local-only test cases are preserved.
+        <i class="ti ti-info-circle"></i> Loading merges Drive test cases with your local ones. Your local-only test cases are preserved.
       </div>`;
   }
 }
@@ -2715,15 +2640,14 @@ function renderDriveModalBody(){
 /* ── File list ── */
 function gdLoadFileList(){
   if(!_gdAccessToken) return;
-  const url=`https://www.googleapis.com/drive/v3/files?q=name+contains+'testcase-manager'+and+mimeType='text/html'+and+trashed=false&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=30&supportsAllDrives=true&includeItemsFromAllDrives=true`;
-  fetch(url,{ headers:{ Authorization:'Bearer '+_gdAccessToken } })
-  .then(r=>{
-    if(r.status===401){ gdHandleExpiredToken(gdLoadFileList); return null; }
+  fetch(`https://www.googleapis.com/drive/v3/files?q=name+contains+'testcase-manager'+and+mimeType='text/html'+and+trashed=false&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=30`,{
+    headers:{ Authorization:'Bearer '+_gdAccessToken }
+  }).then(r=>{
+    if(r.status===401){ _gdAccessToken=null; sessionStorage.removeItem('gd_token'); renderDriveModalBody(); return; }
     return r.json();
-  })
-  .then(data=>{
+  }).then(data=>{
     if(!data) return;
-    _gdFiles=data.files||[];
+    _gdFiles = data.files||[];
     renderFileList();
   }).catch(err=>{
     const list=document.getElementById('gdFileList');
@@ -2757,7 +2681,8 @@ function renderFileList(){
 }
 
 function gdSelectFile(id,name){
-  _gdSelectedFileId=id; _gdSelectedFileName=name;
+  _gdSelectedFileId=id;
+  _gdSelectedFileName=name;
   renderFileList();
   if(_gdMode==='save'){
     const inp=document.getElementById('gdSaveFileName');
@@ -2775,40 +2700,22 @@ function gdCheckSaveReady(){
 }
 
 /* ── Folder picker ── */
-function gdLoadPickerThen(callback){
-  if(_gdPickerLoaded){callback();return;}
-  if(_gdPickerLoading){
-    const wait=setInterval(()=>{ if(_gdPickerLoaded){clearInterval(wait);callback();} },200);
-    return;
-  }
-  _gdPickerLoading=true;
-  if(typeof gapi==='undefined'){ showToast('Google API not ready — try again'); _gdPickerLoading=false; return; }
-  gapi.load('picker',{
-    callback:()=>{ _gdPickerLoaded=true; _gdPickerLoading=false; callback(); },
-    onerror:()=>{ _gdPickerLoading=false; showToast('Could not load Picker'); }
-  });
-}
-
 function gdPickFolder(){
-  if(!_gdAccessToken){ gdSignIn(); return; }
-  const btn=document.querySelector('[onclick="gdPickFolder()"]');
-  if(btn){ btn.innerHTML='<span class="gdrive-spinner"></span> Loading…'; btn.disabled=true; }
-  gdLoadPickerThen(()=>{
-    if(btn){ btn.innerHTML='<i class="ti ti-folder"></i> Pick folder'; btn.disabled=false; }
-    const view=new google.picker.DocsView(google.picker.ViewId.FOLDERS).setSelectFolderEnabled(true);
-    new google.picker.PickerBuilder()
-      .setOAuthToken(_gdAccessToken)
-      .setDeveloperKey(GD_API_KEY)
-      .addView(view)
-      .setTitle('Select destination folder')
-      .setCallback(data=>{
-        if(data.action===google.picker.Action.PICKED){
-          _gdFolderId=data.docs[0].id;
-          const label=document.getElementById('gdFolderLabel');
-          if(label) label.textContent='📁 Saving to: '+data.docs[0].name;
-        }
-      }).build().setVisible(true);
-  });
+  if(!_gdAccessToken){gdSignIn();return;}
+  if(typeof google==='undefined'||!google.picker){showToast('Picker API not loaded — retry in a moment');return;}
+  const view=new google.picker.DocsView(google.picker.ViewId.FOLDERS).setSelectFolderEnabled(true);
+  new google.picker.PickerBuilder()
+    .setOAuthToken(_gdAccessToken)
+    .setDeveloperKey(GD_API_KEY)
+    .addView(view)
+    .setTitle('Select destination folder')
+    .setCallback(data=>{
+      if(data.action===google.picker.Action.PICKED){
+        _gdFolderId=data.docs[0].id;
+        const label=document.getElementById('gdFolderLabel');
+        if(label) label.textContent='📁 Saving to: '+data.docs[0].name;
+      }
+    }).build().setVisible(true);
 }
 
 /* ── Action ── */
@@ -2824,6 +2731,7 @@ function doSaveToDrive(){
   const btn=document.getElementById('driveModalAction');
   if(btn){btn.disabled=true;btn.innerHTML='<span class="gdrive-spinner"></span> Uploading…';}
 
+  // Build baked HTML
   cleanData();
   if(_sessionChanges.length>0){saveVersion(null,_sessionChanges);_sessionChanges=[];}
   const allVersions=loadVersions();
@@ -2839,7 +2747,18 @@ function doSaveToDrive(){
     injBlock+'\nlet {teams,suites,testcases,plans,counter,planCounter,runCounter,teamCounter}=loadData();'
   );
   const blob=new Blob([src],{type:'text/html'});
-  gdUploadFile(blob,filename,_gdSelectedFileId,btn);
+
+  if(_gdSelectedFileId){
+    gdUploadFile(blob,filename,_gdSelectedFileId,btn);
+  } else {
+    // Check for duplicate filename
+    fetch(`https://www.googleapis.com/drive/v3/files?q=name='${encodeURIComponent(filename)}'+and+mimeType='text/html'+and+trashed=false&fields=files(id)&pageSize=1`,{
+      headers:{Authorization:'Bearer '+_gdAccessToken}
+    }).then(r=>r.json()).then(data=>{
+      const existId=data.files&&data.files.length?data.files[0].id:null;
+      gdUploadFile(blob,filename,existId,btn);
+    }).catch(()=>gdUploadFile(blob,filename,null,btn));
+  }
 }
 
 function gdUploadFile(blob,filename,existingId,btn){
@@ -2850,42 +2769,16 @@ function gdUploadFile(blob,filename,existingId,btn){
   form.append('metadata',new Blob([meta],{type:'application/json'}));
   form.append('file',blob);
   const method=existingId?'PATCH':'POST';
-  // supportsAllDrives=true is required to write into Shared Drives
   const url=existingId
-    ?`https://www.googleapis.com/upload/drive/v3/files/${existingId}?uploadType=multipart&supportsAllDrives=true`
-    :`https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true`;
-
+    ?`https://www.googleapis.com/upload/drive/v3/files/${existingId}?uploadType=multipart`
+    :'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
   fetch(url,{method,headers:{Authorization:'Bearer '+_gdAccessToken},body:form})
-    .then(r=>{
-      if(r.status===401){
-        gdHandleExpiredToken(()=>gdUploadFile(blob,filename,existingId,btn));
-        return null;
-      }
-      if(r.status===403){
-        // No edit permission on this specific file — fall back to creating
-        // a NEW file in the user's own Drive so the save never just fails.
-        if(existingId){
-          console.warn('403 updating shared file — creating a new file in your Drive instead');
-          showToast('No edit access to that file — saving as a new file instead');
-          gdUploadFile(blob, filename.replace(/\.html$/,'')+'_'+(_gdUser?_gdUser.name.split(' ')[0]:'copy')+'.html', null, btn);
-          return null;
-        }
-        return r.json().then(e=>{
-          const msg=(e.error&&e.error.message)||'Permission denied';
-          throw new Error('403 – '+msg+'\n\nAsk the file owner to share it with you as Editor, or use a Shared Drive.');
-        });
-      }
-      if(!r.ok) return r.json().then(e=>{throw new Error((e.error&&e.error.message)||'HTTP '+r.status);});
-      return r.json();
-    })
+    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
     .then(f=>{
-      if(!f) return;
       closeDriveModal();
       gdUpdateDropdownUI();
       showToast('✓ Saved to Google Drive: '+f.name);
-      _gdFiles=[];
-    })
-    .catch(err=>{
+    }).catch(err=>{
       showToast('Upload failed: '+(err.message||'unknown error'));
       if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-cloud-upload"></i> Upload to Drive';}
     });
@@ -2893,20 +2786,18 @@ function gdUploadFile(blob,filename,existingId,btn){
 
 /* ── LOAD ── */
 function doLoadFromDrive(){
-  if(!_gdSelectedFileId){ showToast('Select a file first'); return; }
+  if(!_gdSelectedFileId){showToast('Select a file first');return;}
   const btn=document.getElementById('driveModalAction');
   if(btn){btn.disabled=true;btn.innerHTML='<span class="gdrive-spinner"></span> Loading…';}
-  fetch(`https://www.googleapis.com/drive/v3/files/${_gdSelectedFileId}?alt=media&supportsAllDrives=true`,{
+  fetch(`https://www.googleapis.com/drive/v3/files/${_gdSelectedFileId}?alt=media`,{
     headers:{Authorization:'Bearer '+_gdAccessToken}
   }).then(r=>{
-    if(r.status===401){ gdHandleExpiredToken(doLoadFromDrive); return null; }
-    if(!r.ok) throw new Error('HTTP '+r.status);
+    if(!r.ok)throw new Error('HTTP '+r.status);
     return r.text();
   }).then(html=>{
-    if(!html) return;
     const match=html.match(/var INJECTED=(\{[\s\S]*?\});/);
     const delMatch=html.match(/var INJECTED_DELETED=(\[[\s\S]*?\]);/);
-    if(!match) throw new Error('No test case data found in this file. Make sure it was saved from Test Case Manager.');
+    if(!match)throw new Error('No test case data found in this file. Make sure it was saved from Test Case Manager.');
     const driveData=JSON.parse(match[1]);
     const driveDeleted=delMatch?JSON.parse(delMatch[1]):[];
     if(!confirm(`Load "${_gdSelectedFileName}" from Drive?\n\nThis merges Drive test cases with your local data. Local-only test cases are kept.`)){
@@ -2924,7 +2815,8 @@ function doLoadFromDrive(){
     const driveTeams=JSON.parse(JSON.stringify(driveData.teams||[]));
     const driveTeamIds=new Set(driveTeams.map(t=>t.id));
     teams.forEach(t=>{if(!driveTeamIds.has(t.id)&&!deletedIds.has(t.id))driveTeams.push(t);});
-    teams=driveTeams; suites=driveSuites;
+    teams=driveTeams;
+    suites=driveSuites;
     testcases=driveTC.filter(t=>!deletedIds.has(t.id));
     plans=driveData.plans||plans;
     counter=Math.max(driveData.counter||1,counter);
@@ -2933,7 +2825,7 @@ function doLoadFromDrive(){
     teamCounter=Math.max(driveData.teamCounter||1,teamCounter);
     saveData('Loaded from Google Drive: '+_gdSelectedFileName);
     closeDriveModal();
-    activeSuiteId=null; selectedTC=null; editingTC=null; activePlanId=null;
+    activeSuiteId=null;selectedTC=null;editingTC=null;activePlanId=null;
     closeDetail();
     renderTeamScreen();
     showToast('✓ Loaded from Drive — '+testcases.length+' test cases');
