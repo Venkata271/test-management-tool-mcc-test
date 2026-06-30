@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://accounts.google.com/gsi/client" async></script>
-<script src="https://apis.google.com/js/api.js" async></script>
+<script src="https://apis.google.com/js/api.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -2622,7 +2622,7 @@ showUserScreen();
 
 const GD_CLIENT_ID  = '55284085448-btiandekdgpcpkt0i2ur3qbr9e2l4t2p.apps.googleusercontent.com';
 const GD_API_KEY    = 'AIzaSyA3f0m2fEhwGJCfdbPVT54-nGvPHxYc_ME';
-const GD_SCOPE      = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly';
+const GD_SCOPE      = 'https://www.googleapis.com/auth/drive';
 const GD_FILENAME   = 'testcase-manager.html';
 const GD_FOLDER_MIME = 'application/vnd.google-apps.folder';
 
@@ -2923,7 +2923,7 @@ function renderDriveModalBody(){
 /* ── File list ── */
 function gdLoadFileList(){
   if(!_gdAccessToken) return;
-  const url=`https://www.googleapis.com/drive/v3/files?q=name+contains+'testcase-manager'+and+mimeType='text/html'+and+trashed=false&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=30`;
+  const url=`https://www.googleapis.com/drive/v3/files?q=name+contains+'testcase-manager'+and+mimeType='text/html'+and+trashed=false&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=30&supportsAllDrives=true&includeItemsFromAllDrives=true`;
   fetch(url,{ headers:{ Authorization:'Bearer '+_gdAccessToken } })
   .then(r=>{
     if(r.status===401){ gdHandleExpiredToken(gdLoadFileList); return null; }
