@@ -1,11 +1,13 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Test Case Manager</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://accounts.google.com/gsi/client" async=""></script>
-<script src="https://apis.google.com/js/api.js" async=""></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://apis.google.com/js/api.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -416,7 +418,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 .gdrive-setup-banner{background:var(--warn-bg);color:var(--warn-text);border-radius:var(--r);padding:10px 14px;font-size:12px;line-height:1.6;display:flex;gap:8px;align-items:flex-start}
 .gdrive-setup-banner i{font-size:16px;flex-shrink:0;margin-top:1px}
 </style>
-<style id="googleidentityservice_button_styles">.qJTHM{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:Roboto-Regular,arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{overflow-wrap:break-word;word-break:break-word}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-u2z5K{height:36px;width:36px}.Bz112c-uaxL4e{border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf{border:none;margin:0;padding:0}.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u{-webkit-transition:height .2s linear;transition:height .2s linear}.P1ekSe-ZMv3u>div:first-child{background-color:#1a73e8!important;-webkit-transition:width .3s linear;transition:width .3s linear}.P1ekSe-ZMv3u>div:nth-child(2){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.P1ekSe-ZMv3u>div:nth-child(3){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(90deg,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{border-radius:4px;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:Google Sans,arial,sans-serif;font-size:.875rem;height:40px;letter-spacing:.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}@media screen and (preferes-contrast:more){.nsm7Bb-HzV7m-LgbsSe{color:#000}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:.875rem;height:32px;letter-spacing:.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:.6875rem;height:20px;letter-spacing:.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc{border:1px solid #8e918f;background-color:#131314;color:#e3e3e3}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{color:#fff}}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;-webkit-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;-webkit-box-flex:1;flex-grow:1;font-family:Google Sans,arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;-webkit-box-flex:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:focus,.nsm7Bb-HzV7m-LgbsSe:hover{box-shadow:none;border-color:rgb(210,227,252);outline:none}.nsm7Bb-HzV7m-LgbsSe:focus-within{outline:2px solid #00639b;border-color:transparent}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.08)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.08)}.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.i5vt6e-to915-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.12)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:Roboto;font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-to915-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#c4c7c5;fill:#c4c7c5}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff,.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#000;fill:#000}}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style></head>
+</head>
 <body>
 <!-- USERNAME SCREEN -->
 <div id="userScreen" class="user-screen">
@@ -426,32 +428,25 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
     <p>Enter your name to get started.<br>This will be shown in version history.</p>
     <div class="user-input-wrap">
       <label for="userNameInput">Your name <span style="color:var(--danger-text)">*</span></label>
-      <input id="userNameInput" type="text" placeholder="e.g. John Smith" maxlength="60" autocomplete="name" onkeydown="if(event.key==='Enter')continueToApp()">
+      <input id="userNameInput" type="text" placeholder="e.g. John Smith" maxlength="60" autocomplete="name"
+        onkeydown="if(event.key==='Enter')continueToApp()">
       <span class="user-err" id="userErr">Please enter your name to continue</span>
     </div>
-    <button class="user-continue-btn" onclick="continueToApp()">Continue →</button>
-    <div class="user-welcome" id="userWelcomeNote" style="display: block;">
-      Welcome back, <strong id="userWelcomeName">Venkata</strong>! Click continue to proceed.
+    <button class="user-continue-btn" onclick="continueToApp()">Continue &rarr;</button>
+    <div class="user-welcome" id="userWelcomeNote" style="display:none">
+      Welcome back, <strong id="userWelcomeName"></strong>! Click continue to proceed.
     </div>
   </div>
 </div>
 
 <!-- TEAM PICKER SCREEN -->
-<div id="teamScreen" class="team-screen" style="display: none;">
+<div id="teamScreen" class="team-screen">
   <div class="team-screen-logo"><i class="ti ti-test-pipe"></i> Test Manager</div>
-  <h2>Hello, Venkata! Select a team to continue.</h2>
-  <div class="team-grid" id="teamGrid"><div class="team-card">
-      <div class="team-card-icon" style="background:#378ADD22;color:#378ADD"><i class="ti ti-layout-2"></i></div>
-      <div class="team-card-name">Frontend</div>
-      <div class="team-card-count">10 test cases</div>
-      <button class="team-card-del" onclick="event.stopPropagation();deleteTeam('t1')" title="Delete team"><i class="ti ti-trash"></i></button></div><div class="team-card">
-      <div class="team-card-icon" style="background:#D85A3022;color:#D85A30"><i class="ti ti-device-mobile"></i></div>
-      <div class="team-card-name">Mobile</div>
-      <div class="team-card-count">1 test case</div>
-      <button class="team-card-del" onclick="event.stopPropagation();deleteTeam('t3')" title="Delete team"><i class="ti ti-trash"></i></button></div><div class="team-card add-card"><div class="team-card-icon" style="background:var(--bg3);color:var(--text3)"><i class="ti ti-plus"></i></div><div class="team-card-name">New team</div></div></div>
+  <h2>Select a team to continue</h2>
+  <div class="team-grid" id="teamGrid"></div>
 </div>
 
-<div class="app-shell" id="appShell" style="display: flex;">
+<div class="app-shell" id="appShell" style="display:none">
 
 <!-- TOP NAV -->
 <div class="topbar">
@@ -462,13 +457,13 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
   </div>
   <div class="topbar-right">
     <span class="saved-badge" id="savedBadge"><i class="ti ti-check" style="font-size:12px"></i> Saved</span>
-    <button class="btn" id="userBtn" onclick="setUsername()" style="display:flex;align-items:center;gap:5px;border-color:var(--border2)" title="Signed in as Venkata — click to change">
+    <button class="btn" id="userBtn" onclick="setUsername()" style="display:flex;align-items:center;gap:5px;border-color:var(--border2)">
       <i class="ti ti-user" style="font-size:13px;color:var(--text2)"></i>
-      <span id="userDisplay" style="font-size: 12px; color: var(--text); max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Venkata</span>
+      <span id="userDisplay" style="font-size:12px;color:var(--text2);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Set name</span>
     </button>
     <button class="team-badge" id="teamBadgeBtn" onclick="goToTeamScreen()">
-      <span class="team-dot" id="teamBadgeDot" style="background: rgb(55, 138, 221);"></span>
-      <span id="teamBadgeName">Frontend</span>
+      <span class="team-dot" id="teamBadgeDot"></span>
+      <span id="teamBadgeName">Team</span>
       <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text3)"></i>
     </button>
     <button class="btn success" onclick="openImportModal()"><i class="ti ti-file-spreadsheet"></i> Import Excel</button>
@@ -485,7 +480,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <span class="dot" id="gdriveDot"></span>
         <i class="ti ti-chevron-down" style="font-size:11px;color:inherit;opacity:.7"></i>
       </button>
-      <div class="gdrive-dd-menu" id="gdriveDdMenu" onclick="event.stopPropagation()" style="top: 43.1667px; right: -57.2292px; left: auto;">
+      <div class="gdrive-dd-menu" id="gdriveDdMenu" onclick="event.stopPropagation()">
         <div class="gdrive-dd-head">
           <div class="gdrive-dd-head-title"><i class="ti ti-brand-google-drive" style="color:#4285F4"></i> Google Drive</div>
           <div class="gdrive-dd-head-sub" id="gdriveDdSub">Not signed in</div>
@@ -517,7 +512,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <button class="btn sm" onclick="addSuite()" aria-label="Add suite"><i class="ti ti-plus"></i></button>
       </div>
     </div>
-    <div class="sidebar-list" id="suiteList"><div class="sidebar-item active"><i class="ti ti-layout-list icon"></i><span class="item-name">All tests</span><span class="s-count">10</span><button class="item-del" title="Delete all test cases"><i class="ti ti-trash"></i></button></div></div>
+    <div class="sidebar-list" id="suiteList"></div>
   </div>
   <div class="main">
     <div class="toolbar">
@@ -538,65 +533,12 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <option value="">All priorities</option>
         <option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option>
       </select>
-      <select id="filterSprint" onchange="renderTCTable()"><option value="">All sprints</option><option value="1 sprint">1 sprint</option></select>
+      <select id="filterSprint" onchange="renderTCTable()">
+        <option value="">All sprints</option>
+      </select>
       <button class="btn primary" onclick="newTC()"><i class="ti ti-plus"></i> Add test case</button>
     </div>
-    <div class="tc-table" id="tcTable"><table><thead><tr>
-    <th style="width:74px">ID</th><th>Title</th>
-    <th style="width:110px">Suite</th>
-    <th style="width:80px">Sprint</th>
-    <th style="width:96px">Type</th><th style="width:76px">Priority</th>
-  </tr></thead><tbody id="tcBody"><tr><td class="tc-id">TC-007</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge functional">functional</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-008</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge functional">functional</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-009</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge functional">functional</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-010</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case 1</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge smoke">smoke</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-011</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge functional">functional</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-012</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case 2</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge sanity">sanity</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-013</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">New test case333454r5</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">1 sprint</td>
-      <td><span class="badge functional">functional</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-014</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">priority 1</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge functional">functional</span></td>
-      <td><span class="badge high">high</span></td></tr><tr><td class="tc-id">TC-015</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">priorty 2</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge regression">regression</span></td>
-      <td><span class="badge medium">medium</span></td></tr><tr><td class="tc-id">TC-016</td>
-      <td style="white-space:normal;word-break:break-word;line-height:1.4">3</td>
-      <td style="color:var(--text2);font-size:12px">—</td>
-      <td style="font-size:12px;color:var(--text3)">—</td>
-      <td><span class="badge regression">regression</span></td>
-      <td><span class="badge low">low</span></td></tr></tbody></table></div>
+    <div class="tc-table" id="tcTable"></div>
   </div>
   <div class="detail-panel hidden" id="tcDetailPanel">
     <div class="dp-resize" id="dpResizeHandle" title="Drag to resize"></div>
@@ -636,7 +578,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 
 </div><!-- end app-shell -->
 
-<!-- end appShell -->
+</div><!-- end appShell -->
 
 <!-- ── MODALS ── -->
 
@@ -744,7 +686,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
       </select>
       <div style="display:flex;gap:8px">
         <button class="btn" onclick="closeImportModal()">Cancel</button>
-        <button class="btn primary" id="importBtn" onclick="doImport()" disabled=""><i class="ti ti-check"></i> Import</button>
+        <button class="btn primary" id="importBtn" onclick="doImport()" disabled><i class="ti ti-check"></i> Import</button>
       </div>
     </div>
   </div>
@@ -762,7 +704,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
     </div>
     <div class="modal-foot" id="driveModalFoot">
       <button class="btn" onclick="closeDriveModal()">Cancel</button>
-      <button class="btn primary" id="driveModalAction" onclick="doDriveAction()" disabled=""></button>
+      <button class="btn primary" id="driveModalAction" onclick="doDriveAction()" disabled></button>
     </div>
   </div>
 </div>
@@ -779,7 +721,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
     <div class="modal-head">
       <h2><i class="ti ti-history" style="color:var(--info-text)"></i> Version history</h2>
       <div style="display:flex;gap:8px;align-items:center">
-        <span style="font-size:11px;color:var(--text3)" id="versionStorageInfo">1 snapshot</span>
+        <span style="font-size:11px;color:var(--text3)" id="versionStorageInfo"></span>
         <button class="btn danger-soft sm" onclick="clearAllVersions()"><i class="ti ti-trash"></i> Clear all</button>
         <button class="btn sm" onclick="closeVersionModal()"><i class="ti ti-x"></i></button>
       </div>
@@ -788,21 +730,16 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
       <!-- Version list -->
       <div style="width:220px;flex-shrink:0;border-right:0.5px solid var(--border);display:flex;flex-direction:column;background:var(--bg2)">
         <div style="padding:8px;font-size:11px;font-weight:500;color:var(--text2);border-bottom:0.5px solid var(--border);flex-shrink:0">Saved snapshots</div>
-        <div id="versionList" style="flex:1;overflow-y:auto;padding:6px"><div class="v-item">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
-        <div class="v-item-time">07:27 PM</div>
-        <span class="v-item-auto">auto</span>
-      </div>
-      <div style="font-size:12px;font-weight:500;color:var(--text);margin-top:3px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Team deleted: Backend">Team deleted: Backend</div>
-      <div class="v-item-meta">6/27/2026 · 0 TC · 0 suites</div>
-      <div style="font-size:11px;color:var(--info-text);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-user" style="font-size:11px"></i>Venkata</div></div></div>
+        <div id="versionList" style="flex:1;overflow-y:auto;padding:6px"></div>
       </div>
       <!-- Version detail -->
       <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0">
-        <div id="versionDetail" style="flex:1;overflow-y:auto;padding:16px;font-size:13px;color:var(--text2)"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--text3)">
-      <i class="ti ti-history" style="font-size:32px"></i>
-      <span>Select a version to preview</span>
-    </div></div>
+        <div id="versionDetail" style="flex:1;overflow-y:auto;padding:16px;font-size:13px;color:var(--text2)">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--text3)">
+            <i class="ti ti-history" style="font-size:32px"></i>
+            <span>Select a version to preview</span>
+          </div>
+        </div>
         <div id="versionActions" style="padding:10px 16px;border-top:0.5px solid var(--border);display:none;gap:8px;justify-content:flex-end">
           <button class="btn sm" onclick="downloadVersion()"><i class="ti ti-download"></i> Download as JSON</button>
           <button class="btn primary sm" onclick="restoreVersion()"><i class="ti ti-restore"></i> Restore this version</button>
@@ -814,7 +751,7 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
 
 <div class="toast" id="toast">
   <span id="toast-msg"></span>
-  <button class="toast-close" onclick="dismissToast()" aria-label="Close">✕</button>
+  <button class="toast-close" onclick="dismissToast()" aria-label="Close">&#x2715;</button>
 </div>
 
 <script>
@@ -968,11 +905,6 @@ function saveData(changeDesc){
   b.classList.add('show');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('show'),2000);
 }
 
-/* TCM_INJECTED_START */
-var INJECTED={"teams":[{"id":"t1","name":"Frontend","color":"#378ADD","icon":"ti-layout-2"},{"id":"t3","name":"Mobile","color":"#D85A30","icon":"ti-device-mobile"}],"suites":[],"testcases":[{"id":"TC-007","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-008","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-009","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-010","suiteId":"","teamId":"t1","sprint":"","title":"New test case 1","type":"smoke","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-011","suiteId":"","teamId":"t1","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-012","suiteId":"","teamId":"t1","sprint":"","title":"New test case 2","type":"sanity","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-013","suiteId":"","teamId":"t1","sprint":"1 sprint","title":"New test case333454r5","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-014","suiteId":"","teamId":"t1","sprint":"","title":"priority 1","type":"functional","priority":"high","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-015","suiteId":"","teamId":"t1","sprint":"","title":"priorty 2","type":"regression","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-016","suiteId":"","teamId":"t1","sprint":"","title":"3","type":"regression","priority":"low","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]},{"id":"TC-017","suiteId":"","teamId":"t3","sprint":"","title":"New test case","type":"functional","priority":"medium","preconditions":"","acceptance":"","steps":[{"action":"","expected":""}],"tags":[]}],"plans":[{"id":"P-001","name":"ter","desc":"","runs":[{"id":"R-001","name":"rtr","sprint":"","cases":[{"tcId":"TC-007","status":"Passed","notes":"test","attachments":[]},{"tcId":"TC-008","status":"Passed","notes":"","attachments":[]}],"created":1782773347226},{"id":"R-002","name":"tgesrt","sprint":"","cases":[{"tcId":"TC-016","status":"Untested","notes":"","attachments":[]}],"created":1782773841449}],"teamId":"t1","created":1782773339565}],"counter":18,"planCounter":3,"runCounter":4,"teamCounter":4};
-var INJECTED_VERSIONS=[{"ts":1782610049491,"label":null,"changes":["Team deleted: Backend"],"user":"Venkata","teams":[{"id":"t1","name":"Frontend","color":"#378ADD","icon":"ti-layout-2"},{"id":"t3","name":"Mobile","color":"#D85A30","icon":"ti-device-mobile"}],"suites":[],"testcases":[],"plans":[],"stats":{"teams":2,"suites":0,"testcases":0,"plans":0}}];
-var INJECTED_DELETED=["s1","TC-001","TC-002","s2","TC-003","s3","TC-004","s4","TC-005","s5","TC-006"];
-/* TCM_INJECTED_END */
 let {teams,suites,testcases,plans,counter,planCounter,runCounter,teamCounter}=loadData();
 // Ensure teamCounter exists for old data
 if(!teamCounter)teamCounter=(teams||[]).length+1;
@@ -2252,7 +2184,11 @@ function exportHTML(){
   const allVersions=loadVersions();
 
   // Build injection block using var to avoid duplicate declaration errors on re-save
-  const injBlock='';
+  const injBlock='/* TCM_INJECTED_START */\n'
+    +'var INJECTED='+JSON.stringify({teams,suites,testcases,plans,counter,planCounter,runCounter,teamCounter})+';\n'
+    +'var INJECTED_VERSIONS='+JSON.stringify(allVersions)+';\n'
+    +'var INJECTED_DELETED='+JSON.stringify([...deletedIds])+';\n'
+    +'/* TCM_INJECTED_END */';
 
   let src=document.documentElement.outerHTML;
 
@@ -2742,30 +2678,78 @@ function gdInit(){
 
   // Restore token from session (survives page refresh, not browser close)
   const saved = sessionStorage.getItem('gd_token');
-  if(saved){ _gdAccessToken = saved; gdFetchUserInfo(); }
-  else { gdUpdateDropdownUI(); }
+  const exp   = parseInt(sessionStorage.getItem('gd_token_exp')||'0');
+  if(saved && Date.now() < exp){
+    _gdAccessToken = saved;
+    gdFetchUserInfo();
+    // Schedule refresh for remaining time
+    gdScheduleRefresh(Math.floor((exp - Date.now()) / 1000));
+  } else {
+    // Token missing or expired — clear it
+    sessionStorage.removeItem('gd_token');
+    sessionStorage.removeItem('gd_token_exp');
+    gdUpdateDropdownUI();
+  }
 }
 
 function gdHandleToken(resp){
   if(resp.error){ showToast('Google sign-in failed: '+resp.error); gdUpdateDropdownUI(); return; }
   _gdAccessToken = resp.access_token;
+  const expiresAt = Date.now() + ((resp.expires_in||3600) - 300) * 1000;
   sessionStorage.setItem('gd_token', _gdAccessToken);
+  sessionStorage.setItem('gd_token_exp', expiresAt);
   gdFetchUserInfo();
-  // Re-render whatever modal is open now that we have a token
+  gdScheduleRefresh((resp.expires_in||3600) - 300);
+  // Run any pending retry (e.g. save/load that was interrupted by 401)
+  if(_gdPendingRetry){
+    const fn=_gdPendingRetry;
+    _gdPendingRetry=null;
+    setTimeout(fn, 500); // small delay to ensure token is set
+  }
+  // Re-render modal if open
   if(document.getElementById('driveModal').classList.contains('open')){
     renderDriveModalBody();
     gdLoadFileList();
   }
 }
 
+let _gdRefreshTimer=null;
+function gdScheduleRefresh(secondsUntil){
+  if(_gdRefreshTimer) clearTimeout(_gdRefreshTimer);
+  _gdRefreshTimer = setTimeout(()=>{
+    // Silent refresh — no popup
+    if(_gdTokenClient) _gdTokenClient.requestAccessToken({ prompt:'' });
+  }, secondsUntil * 1000);
+}
+
 function gdFetchUserInfo(){
   if(!_gdAccessToken) return;
   fetch('https://www.googleapis.com/oauth2/v3/userinfo',{
     headers:{ Authorization:'Bearer '+_gdAccessToken }
-  }).then(r=>r.json()).then(info=>{
+  }).then(r=>{
+    if(r.status===401){ gdHandleExpiredToken(); return null; }
+    return r.json();
+  }).then(info=>{
+    if(!info) return;
     _gdUser = { name:info.name, email:info.email, picture:info.picture };
     gdUpdateDropdownUI();
   }).catch(()=>{ gdUpdateDropdownUI(); });
+}
+
+let _gdPendingRetry=null; // function to call after token refresh
+
+// Called whenever any API call returns 401
+function gdHandleExpiredToken(retryFn){
+  _gdAccessToken = null;
+  _gdUser = null;
+  sessionStorage.removeItem('gd_token');
+  sessionStorage.removeItem('gd_token_exp');
+  gdUpdateDropdownUI();
+  if(!_gdTokenClient){ gdInit(); return; }
+  _gdPendingRetry = retryFn || null;
+  // Request new token silently — callback goes to gdHandleToken
+  _gdTokenClient.requestAccessToken({ prompt:'' });
+  showToast('Session expired — signing in again…');
 }
 
 function gdUpdateDropdownUI(){
@@ -2908,15 +2892,18 @@ function renderDriveModalBody(){
           <button class="btn sm" onclick="gdPickFolder()"><i class="ti ti-folder"></i> Pick folder</button>
         </div>
         <div style="font-size:11px;color:var(--text3);margin-top:5px" id="gdFolderLabel">📁 Saving to: My Drive (root)</div>
+        <div style="font-size:11px;color:var(--info-text);margin-top:5px;line-height:1.6;background:var(--info-bg);padding:6px 10px;border-radius:var(--r)">
+          <i class="ti ti-info-circle"></i> Leave empty below to <strong>create a new file</strong> in your Drive. Select an existing file below only if you own it — updating someone else's file requires them to share it with you as <strong>Editor</strong>.
+        </div>
       </div>
       <div>
-        <div class="gdrive-section-label">Or overwrite an existing file</div>
+        <div class="gdrive-section-label">Overwrite your own existing file <span style="font-weight:400;color:var(--text3)">(optional)</span></div>
         <div class="gdrive-file-list" id="gdFileList">
           <div class="gdrive-empty"><span class="gdrive-spinner"></span>&nbsp; Loading your Drive files…</div>
         </div>
       </div>
       <div style="font-size:11px;color:var(--text3);line-height:1.7;padding:8px 10px;background:var(--bg2);border-radius:var(--r)">
-        <i class="ti ti-info-circle"></i> The uploaded HTML contains all test cases baked in. Share the Drive file with teammates — they download it, open in browser, and click "Load from Drive" to sync.
+        <i class="ti ti-info-circle"></i> The uploaded HTML contains all test cases baked in. Share the Drive file with teammates — they open the GitHub Pages link, click Drive ▾ → Load from Drive to sync.
       </div>`;
     gdCheckSaveReady();
   } else {
@@ -2936,12 +2923,13 @@ function renderDriveModalBody(){
 /* ── File list ── */
 function gdLoadFileList(){
   if(!_gdAccessToken) return;
-  fetch(`https://www.googleapis.com/drive/v3/files?q=name+contains+'testcase-manager'+and+mimeType='text/html'+and+trashed=false&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=30`,{
-    headers:{ Authorization:'Bearer '+_gdAccessToken }
-  }).then(r=>{
-    if(r.status===401){ _gdAccessToken=null; sessionStorage.removeItem('gd_token'); renderDriveModalBody(); return; }
+  const url=`https://www.googleapis.com/drive/v3/files?q=name+contains+'testcase-manager'+and+mimeType='text/html'+and+trashed=false&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=30`;
+  fetch(url,{ headers:{ Authorization:'Bearer '+_gdAccessToken } })
+  .then(r=>{
+    if(r.status===401){ gdHandleExpiredToken(gdLoadFileList); return null; }
     return r.json();
-  }).then(data=>{
+  })
+  .then(data=>{
     if(!data) return;
     _gdFiles = data.files||[];
     renderFileList();
@@ -2996,22 +2984,57 @@ function gdCheckSaveReady(){
 }
 
 /* ── Folder picker ── */
+let _gdPickerLoaded=false;
+let _gdPickerLoading=false;
+
+function gdLoadPickerThen(callback){
+  if(_gdPickerLoaded){callback();return;}
+  if(_gdPickerLoading){
+    // Already loading — wait for it
+    const wait=setInterval(()=>{
+      if(_gdPickerLoaded){clearInterval(wait);callback();}
+    },200);
+    return;
+  }
+  _gdPickerLoading=true;
+  if(typeof gapi==='undefined'){
+    showToast('Google API not ready — please wait a moment and try again');
+    _gdPickerLoading=false;
+    return;
+  }
+  gapi.load('picker',{
+    callback:()=>{
+      _gdPickerLoaded=true;
+      _gdPickerLoading=false;
+      callback();
+    },
+    onerror:()=>{
+      _gdPickerLoading=false;
+      showToast('Could not load Picker — check your internet connection');
+    }
+  });
+}
+
 function gdPickFolder(){
   if(!_gdAccessToken){gdSignIn();return;}
-  if(typeof google==='undefined'||!google.picker){showToast('Picker API not loaded — retry in a moment');return;}
-  const view=new google.picker.DocsView(google.picker.ViewId.FOLDERS).setSelectFolderEnabled(true);
-  new google.picker.PickerBuilder()
-    .setOAuthToken(_gdAccessToken)
-    .setDeveloperKey(GD_API_KEY)
-    .addView(view)
-    .setTitle('Select destination folder')
-    .setCallback(data=>{
-      if(data.action===google.picker.Action.PICKED){
-        _gdFolderId=data.docs[0].id;
-        const label=document.getElementById('gdFolderLabel');
-        if(label) label.textContent='📁 Saving to: '+data.docs[0].name;
-      }
-    }).build().setVisible(true);
+  const btn=document.querySelector('[onclick="gdPickFolder()"]');
+  if(btn){btn.innerHTML='<span class="gdrive-spinner"></span> Loading…';btn.disabled=true;}
+  gdLoadPickerThen(()=>{
+    if(btn){btn.innerHTML='<i class="ti ti-folder"></i> Pick folder';btn.disabled=false;}
+    const view=new google.picker.DocsView(google.picker.ViewId.FOLDERS).setSelectFolderEnabled(true);
+    new google.picker.PickerBuilder()
+      .setOAuthToken(_gdAccessToken)
+      .setDeveloperKey(GD_API_KEY)
+      .addView(view)
+      .setTitle('Select destination folder')
+      .setCallback(data=>{
+        if(data.action===google.picker.Action.PICKED){
+          _gdFolderId=data.docs[0].id;
+          const label=document.getElementById('gdFolderLabel');
+          if(label) label.textContent='📁 Saving to: '+data.docs[0].name;
+        }
+      }).build().setVisible(true);
+  });
 }
 
 /* ── Action ── */
@@ -3043,18 +3066,8 @@ function doSaveToDrive(){
     injBlock+'\nlet {teams,suites,testcases,plans,counter,planCounter,runCounter,teamCounter}=loadData();'
   );
   const blob=new Blob([src],{type:'text/html'});
-
-  if(_gdSelectedFileId){
-    gdUploadFile(blob,filename,_gdSelectedFileId,btn);
-  } else {
-    // Check for duplicate filename
-    fetch(`https://www.googleapis.com/drive/v3/files?q=name='${encodeURIComponent(filename)}'+and+mimeType='text/html'+and+trashed=false&fields=files(id)&pageSize=1`,{
-      headers:{Authorization:'Bearer '+_gdAccessToken}
-    }).then(r=>r.json()).then(data=>{
-      const existId=data.files&&data.files.length?data.files[0].id:null;
-      gdUploadFile(blob,filename,existId,btn);
-    }).catch(()=>gdUploadFile(blob,filename,null,btn));
-  }
+  // Always save to the shared team file (selected) or create new
+  gdUploadFile(blob,filename,_gdSelectedFileId,btn);
 }
 
 function gdUploadFile(blob,filename,existingId,btn){
@@ -3065,16 +3078,34 @@ function gdUploadFile(blob,filename,existingId,btn){
   form.append('metadata',new Blob([meta],{type:'application/json'}));
   form.append('file',blob);
   const method=existingId?'PATCH':'POST';
+  // supportsAllDrives=true required for Shared Drives
   const url=existingId
-    ?`https://www.googleapis.com/upload/drive/v3/files/${existingId}?uploadType=multipart`
-    :'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    ?`https://www.googleapis.com/upload/drive/v3/files/${existingId}?uploadType=multipart&supportsAllDrives=true`
+    :`https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true`;
+
   fetch(url,{method,headers:{Authorization:'Bearer '+_gdAccessToken},body:form})
-    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(r=>{
+      if(r.status===401){
+        gdHandleExpiredToken(()=>gdUploadFile(blob,filename,existingId,btn));
+        return null;
+      }
+      if(r.status===403){
+        return r.json().then(e=>{
+          const msg=(e.error&&e.error.message)||'Permission denied';
+          throw new Error('403 – '+msg+'\n\nFix: Put the file in a Google Shared Drive and give teammates "Content manager" access.');
+        });
+      }
+      if(!r.ok) return r.json().then(e=>{throw new Error((e.error&&e.error.message)||'HTTP '+r.status);});
+      return r.json();
+    })
     .then(f=>{
+      if(!f) return;
       closeDriveModal();
       gdUpdateDropdownUI();
       showToast('✓ Saved to Google Drive: '+f.name);
-    }).catch(err=>{
+      _gdFiles=[];
+    })
+    .catch(err=>{
       showToast('Upload failed: '+(err.message||'unknown error'));
       if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-cloud-upload"></i> Upload to Drive';}
     });
@@ -3088,9 +3119,11 @@ function doLoadFromDrive(){
   fetch(`https://www.googleapis.com/drive/v3/files/${_gdSelectedFileId}?alt=media`,{
     headers:{Authorization:'Bearer '+_gdAccessToken}
   }).then(r=>{
-    if(!r.ok)throw new Error('HTTP '+r.status);
+    if(r.status===401){ gdHandleExpiredToken(doLoadFromDrive); return null; }
+    if(!r.ok) throw new Error('HTTP '+r.status);
     return r.text();
   }).then(html=>{
+    if(!html) return;
     const match=html.match(/var INJECTED=(\{[\s\S]*?\});/);
     const delMatch=html.match(/var INJECTED_DELETED=(\[[\s\S]*?\]);/);
     if(!match)throw new Error('No test case data found in this file. Make sure it was saved from Test Case Manager.');
@@ -3134,6 +3167,5 @@ function doLoadFromDrive(){
 /* ── Boot ── */
 window.addEventListener('load',()=>setTimeout(gdInit,800));
 </script>
-
-
-</body></html>
+</body>
+</html>
