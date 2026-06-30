@@ -2379,7 +2379,7 @@ const GD_FILENAME      = 'testcase-manager.html';
 // Paste your shared Google Drive folder ID here.
 // Get it from the folder URL: drive.google.com/drive/folders/FOLDER_ID
 // All users will save into this folder automatically.
-const GD_SHARED_FOLDER = '105GVdq0Z8sn82eBL_GvSXS_qhdNjL_vR';   // e.g. '1A2B3C4D5E6F7G8H9I0J'
+const GD_SHARED_FOLDER = '105GVdq0Z8sn82eBL_GvSXS_qhdNjL_vR';
 
 let _gdTokenClient     = null;
 let _gdAccessToken     = null;
@@ -2560,12 +2560,11 @@ function renderDriveModalBody(){
 /* ── File list ── */
 function gdLoadFileList(){
   if(!_gdAccessToken) return;
-  // Search shared folder if configured, else search all Drive
-  const folderFilter = GD_SHARED_FOLDER
-    ? `+'${GD_SHARED_FOLDER}'+in+parents+and+`
-    : '';
-  const q = encodeURIComponent(`${folderFilter}name contains 'testcase-manager' and mimeType='text/html' and trashed=false`);
-  fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime desc&pageSize=30`,{
+  // Build query — search shared folder if configured, else all Drive
+  let qParts = ["mimeType='text/html'", "trashed=false"];
+  if(GD_SHARED_FOLDER) qParts.push(`'${GD_SHARED_FOLDER}' in parents`);
+  const q = encodeURIComponent(qParts.join(' and '));
+  fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,modifiedTime,size)&orderBy=modifiedTime+desc&pageSize=50`,{
     headers:{Authorization:'Bearer '+_gdAccessToken}
   }).then(r=>{
     if(r.status===401){ _gdAccessToken=null; sessionStorage.removeItem('gd_token'); renderDriveModalBody(); return null; }
@@ -2616,6 +2615,7 @@ function gdSelectFile(id,name){
 function gdCheckSaveReady(){
   const btn=document.getElementById('driveModalAction');
   const inp=document.getElementById('gdSaveFileName');
+  // Enable as long as there's a filename — don't require selecting an existing file
   if(btn) btn.disabled=!(inp&&inp.value.trim());
 }
 
@@ -2649,8 +2649,9 @@ function doSaveToDrive(){
   if(_gdSelectedFileId){ gdUploadFile(blob,filename,_gdSelectedFileId,btn); return; }
 
   // Otherwise check for duplicate name in the target folder
-  const folderFilter=GD_SHARED_FOLDER?`'${GD_SHARED_FOLDER}' in parents and `:'';
-  const q=encodeURIComponent(`${folderFilter}name='${filename}' and mimeType='text/html' and trashed=false`);
+  let dupParts = [`name='${filename}'`, "mimeType='text/html'", "trashed=false"];
+  if(GD_SHARED_FOLDER) dupParts.push(`'${GD_SHARED_FOLDER}' in parents`);
+  const q = encodeURIComponent(dupParts.join(' and '));
   fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id)&pageSize=1`,{
     headers:{Authorization:'Bearer '+_gdAccessToken}
   }).then(r=>r.json()).then(data=>{
