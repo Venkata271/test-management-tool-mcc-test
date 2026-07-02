@@ -600,17 +600,28 @@ td{padding:9px 14px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-
         <label>Select test cases</label>
         <div style="display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap">
           <input type="text" id="nr-search" placeholder="Filter…" oninput="renderTCSelector()" style="flex:1;min-width:120px;font-size:12px;padding:5px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none">
-          <select id="nr-suite-filter" onchange="renderTCSelector()" style="font-size:12px;padding:5px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none">
-            <option value="">All suites</option>
-          </select>
+          <div class="multi-sel-wrap" id="nrSuiteWrap">
+            <button class="multi-sel-btn" id="nrSuiteBtn" onclick="toggleNrMultiDrop(event,'nrSuiteDrop','initNrSuiteFilter')">
+              <span id="nrSuiteLabel">All suites</span>
+              <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text3)"></i>
+            </button>
+            <div class="multi-sel-drop" id="nrSuiteDrop">
+              <div class="multi-sel-opts" id="nrSuiteOpts"></div>
+              <div class="multi-sel-foot"><button class="btn sm" onclick="clearNrFilter('suite')">Clear</button></div>
+            </div>
+          </div>
+          <div class="multi-sel-wrap" id="nrPriorWrap">
+            <button class="multi-sel-btn" id="nrPriorBtn" onclick="toggleNrMultiDrop(event,'nrPriorDrop','initNrPriorFilter')">
+              <span id="nrPriorLabel">All priorities</span>
+              <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text3)"></i>
+            </button>
+            <div class="multi-sel-drop" id="nrPriorDrop">
+              <div class="multi-sel-opts" id="nrPriorOpts"></div>
+              <div class="multi-sel-foot"><button class="btn sm" onclick="clearNrFilter('priority')">Clear</button></div>
+            </div>
+          </div>
           <select id="nr-sprint-filter" onchange="renderTCSelector()" style="font-size:12px;padding:5px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none">
             <option value="">All sprints</option>
-          </select>
-          <select id="nr-priority-filter" onchange="renderTCSelector()" style="font-size:12px;padding:5px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none">
-            <option value="">All priorities</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
           </select>
           <div class="multi-sel-wrap" id="nrTypeWrap">
             <button class="multi-sel-btn" id="nrTypeBtn" onclick="toggleNrTypeDropdown(event)">
@@ -1362,10 +1373,6 @@ function deletePlan(pid){
 function openNewRunModal(pid){
   document.getElementById('nr-name').value='';
   document.getElementById('nr-sprint').value='';
-  // populate suite filter (team-scoped)
-  const sf=document.getElementById('nr-suite-filter');
-  sf.innerHTML='<option value="">All suites</option>';
-  teamSuites().forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.name;sf.appendChild(o);});
   // populate sprint filter (team-scoped)
   const spf=document.getElementById('nr-sprint-filter');
   spf.innerHTML='<option value="">All sprints</option>';
@@ -1373,7 +1380,12 @@ function openNewRunModal(pid){
   sprints.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;spf.appendChild(o);});
   selectedTCIds=new Set();
   nrSelectedTypes=new Set();
+  nrSelectedSuites=new Set();
+  nrSelectedPriorities=new Set();
   updateNrTypeLabel();
+  updateNrMultiLabel('suite');
+  updateNrMultiLabel('priority');
+  renderTCSelector();
   renderTCSelector();
   document.getElementById('newRunModal').classList.add('open');
   document.getElementById('newRunModal').dataset.pid=pid;
@@ -1415,17 +1427,89 @@ function clearNrTypeFilter(){
   nrSelectedTypes.clear();updateNrTypeLabel();initNrTypeFilter();renderTCSelector();
 }
 
+/* ── Suite & Priority multi-select filters ── */
+let nrSelectedSuites=new Set();
+let nrSelectedPriorities=new Set();
+const NR_PRIORITIES=['high','medium','low'];
+
+function toggleNrMultiDrop(e,dropId,initFn){
+  e.stopPropagation();
+  const drop=document.getElementById(dropId);
+  const isOpen=drop.classList.contains('open');
+  closeAllDropdowns();
+  if(!isOpen){ window[initFn](); drop.classList.add('open'); }
+}
+
+function initNrSuiteFilter(){
+  const opts=document.getElementById('nrSuiteOpts');opts.innerHTML='';
+  teamSuites().forEach(s=>{
+    const row=document.createElement('div');row.className='multi-sel-opt';
+    row.innerHTML=`<input type="checkbox" id="nrs-${s.id}" value="${s.id}" ${nrSelectedSuites.has(s.id)?'checked':''}><label for="nrs-${s.id}" style="cursor:pointer;flex:1">${esc(s.name)}</label>`;
+    row.querySelector('input').onchange=e=>{
+      if(e.target.checked)nrSelectedSuites.add(s.id);else nrSelectedSuites.delete(s.id);
+      updateNrMultiLabel('suite');renderTCSelector();
+    };
+    row.onclick=e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='LABEL')return;const cb=row.querySelector('input');cb.checked=!cb.checked;cb.onchange({target:cb});};
+    opts.appendChild(row);
+  });
+}
+
+function initNrPriorFilter(){
+  const opts=document.getElementById('nrPriorOpts');opts.innerHTML='';
+  NR_PRIORITIES.forEach(p=>{
+    const row=document.createElement('div');row.className='multi-sel-opt';
+    row.innerHTML=`<input type="checkbox" id="nrp-${p}" value="${p}" ${nrSelectedPriorities.has(p)?'checked':''}><label for="nrp-${p}" style="cursor:pointer;flex:1">${p.charAt(0).toUpperCase()+p.slice(1)}</label><span class="badge ${p}" style="font-size:10px;padding:1px 7px">${p}</span>`;
+    row.querySelector('input').onchange=e=>{
+      if(e.target.checked)nrSelectedPriorities.add(p);else nrSelectedPriorities.delete(p);
+      updateNrMultiLabel('priority');renderTCSelector();
+    };
+    row.onclick=e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='LABEL')return;const cb=row.querySelector('input');cb.checked=!cb.checked;cb.onchange({target:cb});};
+    opts.appendChild(row);
+  });
+}
+
+function updateNrMultiLabel(type){
+  if(type==='suite'){
+    const btn=document.getElementById('nrSuiteBtn');
+    const label=document.getElementById('nrSuiteLabel');
+    if(!nrSelectedSuites.size){label.textContent='All suites';btn.classList.remove('has-sel');return;}
+    const names=teamSuites().filter(s=>nrSelectedSuites.has(s.id)).map(s=>s.name);
+    label.innerHTML=nrSelectedSuites.size===1?esc(names[0]):`${esc(names[0])} <span class="type-count-pill">+${nrSelectedSuites.size-1}</span>`;
+    btn.classList.add('has-sel');
+  } else {
+    const btn=document.getElementById('nrPriorBtn');
+    const label=document.getElementById('nrPriorLabel');
+    if(!nrSelectedPriorities.size){label.textContent='All priorities';btn.classList.remove('has-sel');return;}
+    const names=[...nrSelectedPriorities].map(p=>p.charAt(0).toUpperCase()+p.slice(1));
+    label.innerHTML=nrSelectedPriorities.size===1?names[0]:`${names[0]} <span class="type-count-pill">+${nrSelectedPriorities.size-1}</span>`;
+    btn.classList.add('has-sel');
+  }
+}
+
+function clearNrFilter(type){
+  if(type==='suite'){nrSelectedSuites.clear();initNrSuiteFilter();updateNrMultiLabel('suite');}
+  else{nrSelectedPriorities.clear();initNrPriorFilter();updateNrMultiLabel('priority');}
+  renderTCSelector();
+}
+
+/* ── Assignee ── */
+function updateAssignee(pid,rid,tcId,val){
+  const plan=plans.find(p=>p.id===pid);if(!plan)return;
+  const run=plan.runs.find(r=>r.id===rid);if(!run)return;
+  const c=run.cases.find(c=>c.tcId===tcId);if(!c)return;
+  c.assignee=val;
+  saveData(`Assignee set: ${(testcases.find(t=>t.id===tcId)||{title:tcId}).title} → ${val||'unassigned'}`);
+}
+
 function renderTCSelector(){
   const q=document.getElementById('nr-search').value.toLowerCase();
-  const sf=document.getElementById('nr-suite-filter').value;
   const sp=document.getElementById('nr-sprint-filter').value;
-  const pr=document.getElementById('nr-priority-filter').value;
   let list=testcases.filter(t=>t.teamId===activeTeamId);
-  if(q)list=list.filter(t=>t.title.toLowerCase().includes(q)||t.id.toLowerCase().includes(q));
-  if(sf)list=list.filter(t=>t.suiteId===sf);
-  if(sp)list=list.filter(t=>(t.sprint||'')===sp);
-  if(pr)list=list.filter(t=>t.priority===pr);
-  if(nrSelectedTypes.size)list=list.filter(t=>nrSelectedTypes.has(t.type));
+  if(q) list=list.filter(t=>t.title.toLowerCase().includes(q)||t.id.toLowerCase().includes(q));
+  if(nrSelectedSuites.size) list=list.filter(t=>nrSelectedSuites.has(t.suiteId));
+  if(sp) list=list.filter(t=>(t.sprint||'')===sp);
+  if(nrSelectedPriorities.size) list=list.filter(t=>nrSelectedPriorities.has(t.priority));
+  if(nrSelectedTypes.size) list=list.filter(t=>nrSelectedTypes.has(t.type));
   const wrap=document.getElementById('tcSelector');wrap.innerHTML='';
   list.forEach(tc=>{
     const row=document.createElement('div');row.className='tc-sel-row';
@@ -1448,15 +1532,13 @@ function renderTCSelector(){
 function updateSelCount(){document.getElementById('selCount').textContent=selectedTCIds.size+' selected';}
 function selectAllTC(sel){
   const q=document.getElementById('nr-search').value.toLowerCase();
-  const sf=document.getElementById('nr-suite-filter').value;
   const sp=document.getElementById('nr-sprint-filter').value;
-  const pr=document.getElementById('nr-priority-filter').value;
   let list=testcases.filter(t=>t.teamId===activeTeamId);
-  if(q)list=list.filter(t=>t.title.toLowerCase().includes(q)||t.id.toLowerCase().includes(q));
-  if(sf)list=list.filter(t=>t.suiteId===sf);
-  if(sp)list=list.filter(t=>(t.sprint||'')===sp);
-  if(pr)list=list.filter(t=>t.priority===pr);
-  if(nrSelectedTypes.size)list=list.filter(t=>nrSelectedTypes.has(t.type));
+  if(q) list=list.filter(t=>t.title.toLowerCase().includes(q)||t.id.toLowerCase().includes(q));
+  if(nrSelectedSuites.size) list=list.filter(t=>nrSelectedSuites.has(t.suiteId));
+  if(sp) list=list.filter(t=>(t.sprint||'')===sp);
+  if(nrSelectedPriorities.size) list=list.filter(t=>nrSelectedPriorities.has(t.priority));
+  if(nrSelectedTypes.size) list=list.filter(t=>nrSelectedTypes.has(t.type));
   list.forEach(t=>{if(sel)selectedTCIds.add(t.id);else selectedTCIds.delete(t.id);});
   renderTCSelector();
 }
@@ -1466,7 +1548,7 @@ function createRun(){
   if(!selectedTCIds.size){showToast('Select at least one test case');return;}
   const pid=document.getElementById('newRunModal').dataset.pid;
   const plan=plans.find(p=>p.id===pid);if(!plan)return;
-  const cases=[...selectedTCIds].map(id=>({tcId:id,status:'Untested',notes:'',attachments:[]}));
+  const cases=[...selectedTCIds].map(id=>({tcId:id,status:'Untested',notes:'',assignee:'',attachments:[]}));
   const run={id:'R-'+String(runCounter++).padStart(3,'0'),name,sprint:document.getElementById('nr-sprint').value.trim(),cases,created:Date.now()};
   plan.runs.push(run);
   saveData(`Run created: ${run.name} (${cases.length} TCs)`);
@@ -1559,6 +1641,10 @@ function renderRunRow(c,pid,rid){
       <select class="run-status-sel ${c.status}" onchange="updateRunStatus('${pid}','${rid}','${c.tcId}',this.value,this)">
         ${RUN_STATUSES.map(s=>`<option value="${s}"${s===c.status?' selected':''}>${s}</option>`).join('')}
       </select>
+      <input type="text" value="${esc(c.assignee||'')}" placeholder="Assignee…"
+        style="font-size:12px;padding:4px 8px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;width:130px"
+        onchange="updateAssignee('${pid}','${rid}','${c.tcId}',this.value)"
+        title="Assignee">
       <label class="attach-btn" title="Attach screenshot/video">
         <i class="ti ti-paperclip"></i> Evidence
         <input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleAttach('${pid}','${rid}','${c.tcId}',event)">
@@ -1597,12 +1683,13 @@ function exportRunExcel(pid,rid){
       'Steps':steps,
       'Tags':(tc.tags||[]).join(', '),
       'Status':c.status,
+      'Assignee':c.assignee||'',
       'Notes':c.notes||''
     };
   });
   const ws=XLSX.utils.json_to_sheet(rows);
   // Column widths
-  ws['!cols']=[{wch:10},{wch:35},{wch:20},{wch:12},{wch:10},{wch:12},{wch:25},{wch:60},{wch:20},{wch:12},{wch:30}];
+  ws['!cols']=[{wch:10},{wch:35},{wch:20},{wch:12},{wch:10},{wch:12},{wch:25},{wch:60},{wch:20},{wch:12},{wch:20},{wch:30}];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,run.name.slice(0,31));
   XLSX.writeFile(wb,`${run.name.replace(/[^a-z0-9]/gi,'_')}.xlsx`);
